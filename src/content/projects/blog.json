@@ -1,0 +1,6 @@
+{
+  "name": "个人博客",
+  "description": "使用 Astro + Vue + Tailwind CSS 搭建的个人博客网站",
+  "tech": ["Astro", "Vue", "Tailwind CSS", "TypeScript"],
+  "featured": true
+}

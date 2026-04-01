@@ -1,0 +1,23 @@
+---
+import { SITE } from '@/config';
+import SocialLinks from '@components/common/SocialLinks.astro';
+---
+
+<div class="flex flex-col items-center py-20 animate-enter">
+  <img 
+    src={SITE.avatar}
+    alt={SITE.author}
+    class="w-32 h-32 rounded-full mb-8 ring-4 ring-offset-4 object-cover transition-transform duration-300 hover:scale-105"
+    style="ring-color: var(--c-primary); ring-offset-color: var(--c-bg);"
+  />
+  
+  <h1 class="text-4xl font-bold mb-4 tracking-tight" style="color: var(--c-text);">
+    Hi, I'm <span class="text-primary">{SITE.author}</span>
+  </h1>
+  
+  <p class="text-lg mb-8 text-center max-w-md leading-relaxed" style="color: var(--c-text-2);">
+    {SITE.description}
+  </p>
+  
+  <SocialLinks />
+</div>

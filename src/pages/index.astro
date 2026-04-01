@@ -1,0 +1,14 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import HeroCard from '@components/home/HeroCard.astro';
+import Moments from '@components/home/Moments.astro';
+import RecentPosts from '@components/home/RecentPosts.astro';
+---
+
+<BaseLayout>
+  <div class="max-w-4xl mx-auto px-6">
+    <HeroCard />
+    <Moments />
+    <RecentPosts />
+  </div>
+</BaseLayout>

@@ -1,0 +1,43 @@
+---
+import { getCollection } from 'astro:content';
+import dayjs from 'dayjs';
+
+let moments: any[] = [];
+try {
+  moments = await getCollection('moments');
+} catch (e) {
+}
+
+const sortedMoments = moments
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 5);
+---
+
+<section class="py-12 animate-enter-delay-1">
+  <div class="flex items-center justify-between mb-8">
+    <h2 class="text-2xl font-bold tracking-tight" style="color: var(--c-text);">
+      Moments
+    </h2>
+    <span class="text-sm" style="color: var(--c-text-4);">碎念</span>
+  </div>
+  
+  <div class="space-y-4">
+    {sortedMoments.length > 0 ? (
+      sortedMoments.map((moment) => (
+        <div 
+          class="group p-4 rounded-lg transition-all duration-200 hover:translate-x-1"
+          style="background-color: var(--c-bg-soft); border: 1px solid var(--c-border);"
+        >
+          <p class="mb-2 leading-relaxed" style="color: var(--c-text-2);">{moment.body}</p>
+          <time class="text-xs" style="color: var(--c-text-4);">
+            {dayjs(moment.data.date).format('YYYY-MM-DD HH:mm')}
+          </time>
+        </div>
+      ))
+    ) : (
+      <div class="p-8 text-center rounded-lg" style="background-color: var(--c-bg-soft); border: 1px solid var(--c-border);">
+        <p style="color: var(--c-text-4);">暂无碎念...</p>
+      </div>
+    )}
+  </div>
+</section>
