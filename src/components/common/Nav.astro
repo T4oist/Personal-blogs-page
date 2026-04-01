@@ -46,7 +46,6 @@ const currentPath = Astro.url.pathname;
             class="nav-link"
           >
             {link.name}
-            <span class="nav-link-ripple"></span>
           </a>
         ))}
       </div>
@@ -79,7 +78,6 @@ const currentPath = Astro.url.pathname;
           class="nav-link"
         >
           {link.name}
-          <span class="nav-link-ripple"></span>
         </a>
       ))}
     </div>
@@ -99,157 +97,17 @@ const currentPath = Astro.url.pathname;
     height: 100%;
   }
   
-  /* 圆形外框动画 */
-  .logo-circle {
-    stroke-dasharray: 251;
-    stroke-dashoffset: 251;
-    animation: draw-circle 1s ease forwards;
-  }
-  
-  /* 十字线动画 */
-  .logo-line {
-    stroke-dasharray: 30;
-    stroke-dashoffset: 30;
-    animation: draw-line 0.6s ease 0.5s forwards;
-  }
-  
-  /* 中心圆点动画 */
-  .logo-dot {
-    opacity: 0;
-    transform: scale(0);
-    transform-origin: center;
-    animation: show-dot 0.4s ease 0.8s forwards;
-  }
-  
-  /* 发光效果动画 */
-  .logo-glow {
-    opacity: 0;
-    transform: scale(0.8);
-    transform-origin: center;
-    animation: show-glow 0.6s ease 1s forwards;
-  }
-  
-  /* 动画关键帧 */
-  @keyframes draw-circle {
-    to {
-      stroke-dashoffset: 0;
-    }
-  }
-  
-  @keyframes draw-line {
-    to {
-      stroke-dashoffset: 0;
-    }
-  }
-  
-  @keyframes show-dot {
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-  
-  @keyframes show-glow {
-    to {
-      opacity: 0.2;
-      transform: scale(1);
-    }
-  }
-  
-  /* 悬停动画 */
+  /* 悬停效果 - 简洁版 */
   .group:hover .logo-wrapper {
     color: var(--c-primary);
     transform: rotate(5deg);
   }
   
-  .group:hover .logo-circle {
-    animation: pulse-circle 1.5s ease forwards;
-  }
-  
-  .group:hover .logo-line {
-    animation: pulse-line 1s ease 0.3s forwards;
-  }
-  
-  .group:hover .logo-dot {
-    animation: pulse-dot 0.8s ease 0.6s forwards;
-  }
-  
-  .group:hover .logo-glow {
-    animation: pulse-glow 1.2s ease 0.9s forwards;
-  }
-  
-  @keyframes pulse-circle {
-    0% {
-      stroke-dashoffset: 0;
-    }
-    50% {
-      stroke-dashoffset: 251;
-    }
-    100% {
-      stroke-dashoffset: 0;
-    }
-  }
-  
-  @keyframes pulse-line {
-    0% {
-      stroke-dashoffset: 0;
-    }
-    50% {
-      stroke-dashoffset: 30;
-    }
-    100% {
-      stroke-dashoffset: 0;
-    }
-  }
-  
-  @keyframes pulse-dot {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.2);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
-  
-  @keyframes pulse-glow {
-    0% {
-      transform: scale(1);
-      opacity: 0.2;
-    }
-    50% {
-      transform: scale(1.1);
-      opacity: 0.4;
-    }
-    100% {
-      transform: scale(1);
-      opacity: 0.2;
-    }
-  }
-  
-  /* 导航链接动效 */
+  /* 导航链接动效 - 简洁版 */
   .nav-link {
     position: relative;
     overflow: hidden;
     cursor: pointer;
-  }
-  
-  .nav-link-ripple {
-    position: absolute;
-    border-radius: 50%;
-    background-color: rgba(66, 184, 131, 0.3);
-    transform: scale(0);
-    animation: ripple 0.6s linear;
-    pointer-events: none;
-  }
-  
-  @keyframes ripple {
-    to {
-      transform: scale(4);
-      opacity: 0;
-    }
   }
   
   /* 点击动画 */
@@ -257,25 +115,14 @@ const currentPath = Astro.url.pathname;
     transform: scale(0.95);
   }
   
-  /* 渐变背景动画 */
-  .nav-link::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(66, 184, 131, 0.2),
-      transparent
-    );
-    transition: left 0.5s;
+  /* 悬停背景效果 */
+  .nav-link:hover {
+    background-color: rgba(66, 184, 131, 0.1);
   }
   
-  .nav-link:hover::before {
-    left: 100%;
+  /* 活动状态 */
+  .nav-link.text-primary {
+    background-color: rgba(66, 184, 131, 0.15);
   }
 </style>
 
@@ -285,33 +132,5 @@ const currentPath = Astro.url.pathname;
   
   btn?.addEventListener('click', () => {
     menu?.classList.toggle('hidden');
-  });
-  
-  // 为导航链接添加点击波纹效果
-  document.addEventListener('DOMContentLoaded', () => {
-    const navLinks = document.querySelectorAll('.nav-link');
-    
-    navLinks.forEach(link => {
-      link.addEventListener('click', function(e) {
-        const ripple = this.querySelector('.nav-link-ripple');
-        
-        // 计算点击位置
-        const rect = this.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        const x = e.clientX - rect.left - size / 2;
-        const y = e.clientY - rect.top - size / 2;
-        
-        // 设置波纹位置和大小
-        ripple.style.width = ripple.style.height = `${size}px`;
-        ripple.style.left = `${x}px`;
-        ripple.style.top = `${y}px`;
-        
-        // 重置动画
-        ripple.style.animation = 'none';
-        setTimeout(() => {
-          ripple.style.animation = 'ripple 0.6s linear';
-        }, 10);
-      });
-    });
   });
 </script>
