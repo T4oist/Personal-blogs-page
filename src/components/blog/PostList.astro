@@ -11,94 +11,207 @@ try {
 const sortedPosts = posts.sort((a, b) => 
   new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
-
-const categories = [...new Set(posts.map(p => p.data.category).filter(Boolean))];
-const tags = [...new Set(posts.flatMap(p => p.data.tags))];
-
-const currentCategory = Astro.url.searchParams.get('category');
-const currentTag = Astro.url.searchParams.get('tag');
-
-const filteredPosts = sortedPosts.filter(post => {
-  if (currentCategory && post.data.category !== currentCategory) return false;
-  if (currentTag && !post.data.tags.includes(currentTag)) return false;
-  return true;
-});
 ---
 
 <div class="space-y-8">
-  <div class="flex flex-wrap gap-2">
-    <a 
-      href="/blog"
-      class:list={[
-        "px-3 py-1 text-sm rounded-full transition-all duration-200",
-        !currentCategory 
-          ? "text-white" 
-          : "hover:text-primary"
-      ]}
-      style={!currentCategory ? "background-color: var(--c-primary);" : "background-color: var(--c-bg-mute); color: var(--c-text-3);"}
+  <!-- 分类筛选器 -->
+  <div class="flex flex-wrap gap-2 mb-8" id="category-filter">
+    <button 
+      data-category="all"
+      class="category-btn px-4 py-2 text-sm rounded-lg transition-all duration-300 relative overflow-hidden group active"
+      style="background: linear-gradient(135deg, var(--c-primary) 0%, var(--c-primary-dark) 100%); color: white;"
     >
-      All
-    </a>
-    {categories.map((cat) => (
-      <a 
-        href={`/blog?category=${cat}`}
-        class:list={[
-          "px-3 py-1 text-sm rounded-full transition-all duration-200",
-          currentCategory === cat 
-            ? "text-white" 
-            : "hover:text-primary"
-        ]}
-        style={currentCategory === cat ? "background-color: var(--c-primary);" : "background-color: var(--c-bg-mute); color: var(--c-text-3);"}
-      >
-        {cat}
-      </a>
-    ))}
+      <span class="relative z-10">全部文章</span>
+      <span class="shine-effect absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></span>
+    </button>
+    
+    <button 
+      data-category="技术"
+      class="category-btn px-4 py-2 text-sm rounded-lg transition-all duration-300 relative overflow-hidden group"
+      style="background-color: var(--c-bg-mute); color: var(--c-text-3);"
+    >
+      <span class="relative z-10">技术</span>
+    </button>
+    
+    <button 
+      data-category="生活"
+      class="category-btn px-4 py-2 text-sm rounded-lg transition-all duration-300 relative overflow-hidden group"
+      style="background-color: var(--c-bg-mute); color: var(--c-text-3);"
+    >
+      <span class="relative z-10">生活</span>
+    </button>
   </div>
   
-  <div class="space-y-4">
-    {filteredPosts.length > 0 ? (
-      filteredPosts.map((post, index) => (
-        <a 
-          href={`/blog/${post.slug}`}
-          class="group block p-6 rounded-lg transition-all duration-200 hover:translate-y-[-2px] animate-fade"
-          style={`background-color: var(--c-bg-soft); border: 1px solid var(--c-border); animation-delay: ${index * 50}ms;`}
-        >
-          <div class="flex items-start justify-between gap-4">
-            <div class="flex-1 min-w-0">
-              <h3 class="text-lg font-semibold mb-2 group-hover:text-primary transition-colors" style="color: var(--c-text);">
-                {post.data.title}
-              </h3>
-              
-              <p class="text-sm mb-3 line-clamp-2" style="color: var(--c-text-3);">
-                {post.data.description}
-              </p>
-              
-              <div class="flex items-center gap-3 text-xs" style="color: var(--c-text-4);">
-                <time>{dayjs(post.data.date).format('YYYY-MM-DD')}</time>
-                {post.data.category && (
-                  <>
-                    <span>·</span>
-                    <span class="text-primary">{post.data.category}</span>
-                  </>
-                )}
-                {post.data.tags.length > 0 && (
-                  <>
-                    <span>·</span>
-                    <span>{post.data.tags.slice(0, 2).join(', ')}</span>
-                  </>
-                )}
-              </div>
+  <!-- 博客文章列表 -->
+  <div id="posts-container" class="space-y-4">
+    {sortedPosts.map((post, index) => (
+      <a 
+        href={`/blog/${post.slug}`}
+        data-category={post.data.category || ''}
+        class="post-card group block p-6 rounded-lg transition-all duration-300 relative overflow-hidden animate-fade"
+        style={`background-color: var(--c-bg-soft); border: 1px solid var(--c-border); animation-delay: ${index * 50}ms;`}
+      >
+        <!-- 悬停时的渐变背景 -->
+        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-var(--c-primary)/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        
+        <div class="flex items-start justify-between gap-4 relative z-10">
+          <div class="flex-1 min-w-0">
+            <h3 class="text-lg font-semibold mb-2 group-hover:text-primary transition-colors duration-300" style="color: var(--c-text);">
+              {post.data.title}
+            </h3>
+            
+            <p class="text-sm mb-3 line-clamp-2" style="color: var(--c-text-3);">
+              {post.data.description}
+            </p>
+            
+            <div class="flex items-center gap-3 text-xs" style="color: var(--c-text-4);">
+              <time>{dayjs(post.data.date).format('YYYY-MM-DD')}</time>
+              {post.data.category && (
+                <>
+                  <span>·</span>
+                  <span class="text-primary">{post.data.category}</span>
+                </>
+              )}
+              {post.data.tags.length > 0 && (
+                <>
+                  <span>·</span>
+                  <span>{post.data.tags.slice(0, 2).join(', ')}</span>
+                </>
+              )}
             </div>
           </div>
-        </a>
-      ))
-    ) : (
-      <div class="p-8 text-center rounded-lg" style="background-color: var(--c-bg-soft); border: 1px solid var(--c-border);">
-        <p style="color: var(--c-text-4);">暂无相关文章...</p>
-      </div>
-    )}
+          
+          <!-- 右侧箭头图标 -->
+          <div class="opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--c-primary);">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </div>
+        </div>
+      </a>
+    ))}
+    
+    <!-- 空状态提示 -->
+    <div id="empty-state" class="hidden p-8 text-center rounded-lg empty-state" style="background-color: var(--c-bg-soft); border: 1px solid var(--c-border);">
+      <p style="color: var(--c-text-4);">暂无相关文章...</p>
+    </div>
   </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const categoryButtons = document.querySelectorAll('.category-btn');
+  const postCards = document.querySelectorAll('.post-card');
+  const emptyState = document.getElementById('empty-state');
+  
+  // 当前选中的分类
+  let currentCategory = 'all';
+  
+  categoryButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const selectedCategory = button.getAttribute('data-category');
+      
+      if (selectedCategory === currentCategory) return;
+      
+      currentCategory = selectedCategory;
+      
+      // 更新按钮样式
+      categoryButtons.forEach(btn => {
+        if (btn === button) {
+          // 选中状态：绿色渐变背景
+          btn.style.background = 'linear-gradient(135deg, var(--c-primary) 0%, var(--c-primary-dark) 100%)';
+          btn.style.backgroundColor = '';
+          btn.style.color = 'white';
+          btn.style.border = 'none';
+          btn.classList.add('active');
+          
+          // 添加流光效果
+          let shine = btn.querySelector('.shine-effect');
+          if (!shine) {
+            shine = document.createElement('span');
+            shine.className = 'shine-effect absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-100%]';
+            btn.appendChild(shine);
+          }
+        } else {
+          // 未选中状态：灰色背景
+          btn.style.background = '';
+          btn.style.backgroundColor = 'var(--c-bg-mute)';
+          btn.style.color = 'var(--c-text-3)';
+          btn.style.border = 'none';
+          btn.classList.remove('active');
+          
+          // 移除流光效果
+          const shine = btn.querySelector('.shine-effect');
+          if (shine) shine.remove();
+        }
+      });
+      
+      // 筛选文章
+      filterPosts(selectedCategory);
+    });
+    
+    // 悬停效果
+    button.addEventListener('mouseenter', () => {
+      if (!button.classList.contains('active')) {
+        button.style.transform = 'translateY(-2px)';
+        button.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+      }
+    });
+    
+    button.addEventListener('mouseleave', () => {
+      if (!button.classList.contains('active')) {
+        button.style.transform = 'translateY(0)';
+        button.style.boxShadow = 'none';
+      }
+    });
+  });
+  
+  function filterPosts(category) {
+    let visibleCount = 0;
+    
+    postCards.forEach((card, index) => {
+      const postCategory = card.getAttribute('data-category') || '';
+      const shouldShow = category === 'all' || postCategory === category;
+      
+      if (shouldShow) {
+        // 显示卡片
+        setTimeout(() => {
+          card.style.display = 'block';
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(20px)';
+          
+          requestAnimationFrame(() => {
+            card.style.transition = 'all 0.3s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          });
+        }, index * 50);
+        
+        visibleCount++;
+      } else {
+        // 隐藏卡片
+        card.style.transition = 'all 0.3s ease';
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(-20px)';
+        
+        setTimeout(() => {
+          card.style.display = 'none';
+        }, 300);
+      }
+    });
+    
+    // 显示或隐藏空状态
+    setTimeout(() => {
+      if (visibleCount === 0 && category !== 'all') {
+        emptyState.style.display = 'block';
+        emptyState.style.animation = 'fadeInUp 0.5s ease-out';
+      } else {
+        emptyState.style.display = 'none';
+      }
+    }, postCards.length * 50 + 300);
+  }
+});
+</script>
 
 <style>
   .line-clamp-2 {
@@ -106,5 +219,59 @@ const filteredPosts = sortedPosts.filter(post => {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+  
+  .category-btn {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .category-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  .category-btn:hover::before {
+    left: 100%;
+  }
+  
+  .post-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .post-card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .empty-state {
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 0.8;
+    }
+    50% {
+      opacity: 1;
+    }
   }
 </style>
