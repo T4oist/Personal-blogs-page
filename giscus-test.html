@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giscus 配置测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-result {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .warning { background-color: #fff3cd; color: #856404; }
+    </style>
+</head>
+<body>
+    <h1>Giscus 配置测试</h1>
+    
+    <div id="test-results">
+        <div class="test-result warning">测试进行中...</div>
+    </div>
+    
+    <h2>当前配置</h2>
+    <pre id="config-info"></pre>
+    
+    <h2>Giscus 评论框</h2>
+    <div id="giscus-comments"></div>
+
+    <script>
+        // 当前配置
+        const config = {
+            repo: 'T4oist/T4oist-blog',
+            repoId: 'R_kgDOR1RUPQ',
+            category: 'Announcements',
+            categoryId: 'DIC_kwDOR1RUPc4C52_w',
+            mapping: 'pathname'
+        };
+
+        // 显示配置信息
+        document.getElementById('config-info').textContent = JSON.stringify(config, null, 2);
+
+        // 测试函数
+        async function testGiscus() {
+            const results = document.getElementById('test-results');
+            
+            try {
+                // 测试 1: 检查仓库是否存在
+                results.innerHTML = '<div class="test-result warning">正在检查仓库状态...</div>';
+                const repoResponse = await fetch(`https://api.github.com/repos/${config.repo}`);
+                
+                if (!repoResponse.ok) {
+                    results.innerHTML = `<div class="test-result error">❌ 仓库不存在或无法访问: ${config.repo}</div>`;
+                    return;
+                }
+                
+                const repoData = await repoResponse.json();
+                results.innerHTML += `<div class="test-result success">✅ 仓库存在: ${repoData.full_name}</div>`;
+                results.innerHTML += `<div class="test-result success">✅ 仓库状态: ${repoData.private ? '私有' : '公开'}</div>`;
+
+                // 测试 2: 检查 Discussions 是否启用
+                results.innerHTML += '<div class="test-result warning">正在检查 Discussions 状态...</div>';
+                const discussionsResponse = await fetch(`https://api.github.com/repos/${config.repo}`);
+                const repoInfo = await discussionsResponse.json();
+                
+                if (!repoInfo.has_discussions) {
+                    results.innerHTML += `<div class="test-result error">❌ Discussions 未启用</div>`;
+                    return;
+                }
+                
+                results.innerHTML += `<div class="test-result success">✅ Discussions 已启用</div>`;
+
+                // 测试 3: 检查分类是否存在
+                results.innerHTML += '<div class="test-result warning">正在检查分类...</div>';
+                const categoriesResponse = await fetch(`https://api.github.com/repos/${config.repo}/discussions/categories`);
+                
+                if (!categoriesResponse.ok) {
+                    results.innerHTML += `<div class="test-result error">❌ 无法获取分类列表</div>`;
+                    return;
+                }
+                
+                const categories = await categoriesResponse.json();
+                const targetCategory = categories.find(cat => cat.name === config.category);
+                
+                if (!targetCategory) {
+                    results.innerHTML += `<div class="test-result error">❌ 分类不存在: ${config.category}</div>`;
+                    results.innerHTML += `<div class="test-result warning">可用分类: ${categories.map(c => c.name).join(', ')}</div>`;
+                    return;
+                }
+                
+                results.innerHTML += `<div class="test-result success">✅ 分类存在: ${targetCategory.name} (ID: ${targetCategory.id})</div>`;
+
+                // 测试 4: 初始化 Giscus
+                results.innerHTML += '<div class="test-result warning">正在初始化 Giscus...</div>';
+                
+                const script = document.createElement('script');
+                script.src = 'https://giscus.app/client.js';
+                script.setAttribute('data-repo', config.repo);
+                script.setAttribute('data-repo-id', config.repoId);
+                script.setAttribute('data-category', config.category);
+                script.setAttribute('data-category-id', config.categoryId);
+                script.setAttribute('data-mapping', config.mapping);
+                script.setAttribute('data-reactions-enabled', '1');
+                script.setAttribute('data-emit-metadata', '0');
+                script.setAttribute('data-input-position', 'bottom');
+                script.setAttribute('data-theme', 'light');
+                script.setAttribute('data-lang', 'zh-CN');
+                script.crossOrigin = 'anonymous';
+                script.async = true;
+
+                document.getElementById('giscus-comments').appendChild(script);
+                
+                results.innerHTML += '<div class="test-result success">✅ Giscus 已初始化</div>';
+                
+            } catch (error) {
+                results.innerHTML += `<div class="test-result error">❌ 测试失败: ${error.message}</div>`;
+            }
+        }
+
+        // 开始测试
+        testGiscus();
+    </script>
+</body>
+</html>

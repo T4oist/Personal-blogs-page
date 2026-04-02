@@ -24,10 +24,10 @@ export const SOCIAL_LINKS = [
 
 export const GISCUS_CONFIG = {
   // Giscus 配置 - 需要从 https://giscus.app 获取
-  repo: 'T4oist/T4oist-blog', // 你的 GitHub 仓库
-  repoId: 'R_kgDOR1RUPQ', // 从 giscus.app 获取
+  repo: 'T4oist/Personal-blogs-page', // 你的 GitHub 仓库
+  repoId: 'R_kgDOR1RUPQ', // 从 giscus.app 获取（需要重新获取）
   category: 'Announcements', // Discussions 分类
-  categoryId: 'DIC_kwDOR1RUPc4C52_w', // 从 giscus.app 获取
+  categoryId: 'DIC_kwDOR1RUPc4C52_w', // 从 giscus.app 获取（需要重新获取）
   mapping: 'pathname', // 使用页面路径作为标识
   reactionsEnabled: true, // 启用表情反应
   emitMetadata: false, // 发送元数据
