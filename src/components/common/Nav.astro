@@ -37,15 +37,18 @@ const currentPath = Astro.url.pathname;
           <a 
             href={link.href}
             class:list={[
-              "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 relative overflow-hidden",
+              "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 relative overflow-hidden group",
               currentPath === link.href 
                 ? "text-primary" 
                 : "hover:text-primary"
             ]}
             style={`color: ${currentPath === link.href ? 'var(--c-primary)' : 'var(--c-text-3)'};`}
             class="nav-link"
+            onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'"
+            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'"
           >
             {link.name}
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-transparent via-var(--c-primary) to-transparent transition-all duration-300 group-hover:w-full"></span>
             
           </a>
         ))}
@@ -53,11 +56,13 @@ const currentPath = Astro.url.pathname;
       
       <button 
         id="mobile-menu-btn"
-        class="md:hidden p-2 rounded-lg transition-colors"
+        class="md:hidden p-2 rounded-lg transition-all duration-300 group"
         style="color: var(--c-text-3);"
         aria-label="Toggle menu"
+        onmouseover="this.style.transform='scale(1.1)'; this.style.backgroundColor='var(--c-bg-soft)'"
+        onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'"
       >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-5 h-5 transition-transform duration-300 group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
@@ -68,18 +73,21 @@ const currentPath = Astro.url.pathname;
     <div class="px-6 py-4 space-y-1">
       {NAV_LINKS.map((link) => (
         <a 
-          href={link.href}
-          class:list={[
-            "block px-4 py-2 text-sm font-medium rounded-lg transition-colors relative overflow-hidden",
-            currentPath === link.href 
-              ? "text-primary" 
-              : "hover:text-primary"
-          ]}
-          style={`color: ${currentPath === link.href ? 'var(--c-primary)' : 'var(--c-text-3)'};`}
-          class="nav-link"
-        >
-          {link.name}
-        </a>
+        href={link.href}
+        class:list={[
+          "block px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 relative overflow-hidden group",
+          currentPath === link.href 
+            ? "text-primary" 
+            : "hover:text-primary"
+        ]}
+        style={`color: ${currentPath === link.href ? 'var(--c-primary)' : 'var(--c-text-3)'};`}
+        class="nav-link"
+        onmouseover="this.style.transform='translateX(4px)'; this.style.backgroundColor='var(--c-bg-soft)'"
+        onmouseout="this.style.transform='translateX(0)'; this.style.backgroundColor='transparent'"
+      >
+        {link.name}
+        <span class="absolute left-0 top-0 h-full w-0.5 bg-gradient-to-b from-transparent via-var(--c-primary) to-transparent transition-all duration-300 group-hover:h-full"></span>
+      </a>
       ))}
     </div>
   </div>
