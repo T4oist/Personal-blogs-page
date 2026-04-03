@@ -13,5 +13,22 @@ export default defineConfig({
       theme: 'github-dark',
       wrap: true
     }
+  },
+  vite: {
+    build: {
+      cssMinify: true,
+      minify: 'terser',
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vue-vendor': ['vue'],
+          }
+        }
+      }
+    }
+  },
+  compressHTML: true,
+  build: {
+    inlineStylesheets: 'auto'
   }
 });

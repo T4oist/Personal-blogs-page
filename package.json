@@ -8,7 +8,7 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "deploy": "powershell -c \"$f=New-TemporaryFile; iwr https://host.retiehe.com/cli -OutFile $f; node $f --site t4oist --build build --outdir dist; rm $f -Force\""
+    "deploy": "powershell -c \"$f=New-TemporaryFile; iwr https://host.retiehe.com/cli -OutFile $f; node $f --site t4oist.online --build build --outdir dist; rm $f -Force\""
   },
   "dependencies": {
     "astro": "^4.16.0",

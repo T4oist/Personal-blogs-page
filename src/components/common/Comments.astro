@@ -103,8 +103,23 @@ mapping: {mapping}</code></pre>
     loadingElement.style.display = 'none';
   }
 
-  // 页面加载后初始化
-  document.addEventListener('DOMContentLoaded', initializeGiscus);
+  // 使用 Intersection Observer 延迟加载评论
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        initializeGiscus();
+        observer.disconnect();
+      }
+    });
+  }, {
+    rootMargin: '100px'
+  });
+
+  // 观察评论区域
+  const commentsSection = document.querySelector('.comments-section');
+  if (commentsSection) {
+    observer.observe(commentsSection);
+  }
 </script>
 
 <style>

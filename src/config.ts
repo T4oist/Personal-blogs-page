@@ -2,7 +2,7 @@ export const SITE = {
   title: 'T4oist',
   description: '"日进斗金"',
   author: 'T4oist',
-  avatar: 'https://pic1.imgdb.cn/item/69cb3cfa9547e6ce4e41c4ab.jpg',
+  avatar: '/avatar.jpg',
   email: '',
   github: '',
   qq: '',
@@ -17,10 +17,10 @@ export const NAV_LINKS = [
 ]
 
 export const SOCIAL_LINKS = [
-  { name: 'GitHub', icon: 'github', href: '' },
-  { name: 'Email', icon: 'email', href: '' },
-  { name: 'QQ', icon: 'qq', href: '' },
-  { name: 'Bilibili', icon: 'bilibili', href: '' },
+  { name: 'GitHub', icon: 'github', href: 'https://github.com/T4oist' },
+  { name: 'Email', icon: 'email', href: 'mailto:ziteng_wang611@163.com' },
+  { name: 'QQ', icon: 'qq', href: 'https://user.qzone.qq.com/1144753509' },
+  { name: 'Bilibili', icon: 'bilibili', href: 'https://space.bilibili.com/309558364?spm_id_from=333.1007.0.0' },
   { name: 'KOOK', icon: 'kook', href: 'https://kook.vip/keuKTO' },
 ]
 
