@@ -37,6 +37,18 @@
     font-family: 'Inter', 'Noto Sans SC', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   }
 
+  @media (max-width: 768px) {
+    html {
+      font-size: 100%;
+    }
+  }
+
+  @media (max-width: 640px) {
+    html {
+      font-size: 95%;
+    }
+  }
+
   body {
     @apply antialiased;
     background-color: var(--c-bg);
@@ -226,5 +238,35 @@
 
   .transition-default {
     transition: all 0.2s ease;
+  }
+
+  @media (max-width: 640px) {
+    html {
+      font-size: 100%;
+    }
+    
+    .prose h1 {
+      @apply text-2xl;
+    }
+    
+    .prose h2 {
+      @apply text-xl;
+    }
+    
+    .prose h3 {
+      @apply text-lg;
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    html {
+      font-size: 105%;
+    }
+  }
+
+  @media (min-width: 1440px) {
+    html {
+      font-size: 115%;
+    }
   }
 }
