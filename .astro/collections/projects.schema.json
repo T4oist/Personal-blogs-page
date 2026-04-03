@@ -31,6 +31,37 @@
           "type": "boolean",
           "default": false
         },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "github",
+                  "website",
+                  "demo",
+                  "docs",
+                  "link"
+                ]
+              },
+              "url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "label": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "type",
+              "url",
+              "label"
+            ],
+            "additionalProperties": false
+          }
+        },
         "$schema": {
           "type": "string"
         }

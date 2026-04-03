@@ -33,6 +33,11 @@ const projects = defineCollection({
     github: z.string().url().optional(),
     image: z.string().optional(),
     featured: z.boolean().default(false),
+    links: z.array(z.object({
+      type: z.enum(['github', 'website', 'demo', 'docs', 'link']),
+      url: z.string().url(),
+      label: z.string(),
+    })).optional(),
   }),
 });
 

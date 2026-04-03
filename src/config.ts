@@ -1,6 +1,6 @@
 export const SITE = {
   title: 'T4oist',
-  description: '“日进斗金”',
+  description: '"日进斗金"',
   author: 'T4oist',
   avatar: 'https://pic1.imgdb.cn/item/69cb3cfa9547e6ce4e41c4ab.jpg',
   email: '',

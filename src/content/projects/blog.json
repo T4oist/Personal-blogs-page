@@ -2,5 +2,19 @@
   "name": "个人博客",
   "description": "使用 Astro + Vue + Tailwind CSS 搭建的个人博客网站",
   "tech": ["Astro", "Vue", "Tailwind CSS", "TypeScript"],
-  "featured": true
+  "featured": true,
+  "github": "https://github.com/T4oist/Personal-blogs-page",
+  "link": "https://t4oist.retiehe.com",
+  "links": [
+    {
+      "type": "github",
+      "url": "https://github.com/T4oist/Personal-blogs-page",
+      "label": "GitHub"
+    },
+    {
+      "type": "website",
+      "url": "https://t4oist.retiehe.com",
+      "label": "在线预览"
+    }
+  ]
 }

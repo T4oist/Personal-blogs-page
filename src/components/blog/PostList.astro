@@ -100,12 +100,12 @@ const sortedPosts = posts.sort((a, b) =>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const categoryButtons = document.querySelectorAll('.category-btn');
-  const postCards = document.querySelectorAll('.post-card');
+  const categoryButtons = document.querySelectorAll<HTMLButtonElement>('.category-btn');
+  const postCards = document.querySelectorAll<HTMLElement>('.post-card');
   const emptyState = document.getElementById('empty-state');
   
   // 当前选中的分类
-  let currentCategory = 'all';
+  let currentCategory: string = 'all';
   
   categoryButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
       if (selectedCategory === currentCategory) return;
       
-      currentCategory = selectedCategory;
+      currentCategory = selectedCategory || 'all';
       
       // 更新按钮样式
       categoryButtons.forEach(btn => {
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       
       // 筛选文章
-      filterPosts(selectedCategory);
+      filterPosts(currentCategory);
     });
     
     // 悬停效果
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   
-  function filterPosts(category) {
+  function filterPosts(category: string) {
     let visibleCount = 0;
     
     postCards.forEach((card, index) => {
@@ -202,11 +202,13 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 显示或隐藏空状态
     setTimeout(() => {
-      if (visibleCount === 0 && category !== 'all') {
-        emptyState.style.display = 'block';
-        emptyState.style.animation = 'fadeInUp 0.5s ease-out';
-      } else {
-        emptyState.style.display = 'none';
+      if (emptyState) {
+        if (visibleCount === 0 && category !== 'all') {
+          emptyState.style.display = 'block';
+          emptyState.style.animation = 'fadeInUp 0.5s ease-out';
+        } else {
+          emptyState.style.display = 'none';
+        }
       }
     }, postCards.length * 50 + 300);
   }

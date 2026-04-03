@@ -14,6 +14,6 @@ jobs:
         env:
           RTH_API_KEY: ${{ secrets.RTH_API_KEY }}
         with:
-          site: "t4oist"
+          site: "T4oist"
           build: "build"
           outdir: "dist"

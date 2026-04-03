@@ -14,7 +14,6 @@ published: true
 
 ![blogs.jpg](blogs.jpg)
 
-#### 从零开始的小小项目：
 
 写一个简单的博客 ✅
 
