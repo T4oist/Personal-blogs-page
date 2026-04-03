@@ -11,6 +11,7 @@ export const SITE = {
 
 export const NAV_LINKS = [
   { name: 'Home', href: '/' },
+  { name: 'Profile', href: '/profile' },
   { name: 'Blog', href: '/blog' },
   { name: 'Projects', href: '/projects' },
 ]
@@ -20,6 +21,7 @@ export const SOCIAL_LINKS = [
   { name: 'Email', icon: 'email', href: '' },
   { name: 'QQ', icon: 'qq', href: '' },
   { name: 'Bilibili', icon: 'bilibili', href: '' },
+  { name: 'KOOK', icon: 'kook', href: 'https://kook.vip/keuKTO' },
 ]
 
 export const GISCUS_CONFIG = {
