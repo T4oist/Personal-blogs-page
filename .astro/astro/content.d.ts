@@ -182,6 +182,11 @@ declare module 'astro:content' {
   collection: "projects";
   data: InferEntrySchema<"projects">
 };
+"danyilv": {
+	id: "danyilv";
+  collection: "projects";
+  data: InferEntrySchema<"projects">
+};
 };
 
 	};

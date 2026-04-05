@@ -6,6 +6,11 @@ import { SITE } from '@/config';
   <img 
     src={SITE.avatar}
     alt={SITE.author}
+    width="144"
+    height="144"
+    loading="eager"
+    fetchpriority="high"
+    decoding="async"
     class="w-36 h-36 rounded-full mb-6 ring-4 ring-offset-4 object-cover transition-transform duration-300 hover:scale-105"
     style="ring-color: var(--c-primary); ring-offset-color: var(--c-bg);"
   />

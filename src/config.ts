@@ -2,7 +2,7 @@ export const SITE = {
   title: 'T4oist',
   description: '"日进斗金"',
   author: 'T4oist',
-  avatar: '/avatar.jpg',
+  avatar: 'https://picui.ogmua.cn/s1/2026/04/05/69d22f1b494c0.webp',
   email: '',
   github: '',
   qq: '',
