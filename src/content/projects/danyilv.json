@@ -1,0 +1,15 @@
+{
+  "name": "掸一缕 - 照片清理App",
+  "description": "一款照片管理应用，随机照片挑选使所有人都能无痛有趣的整理手机相册，释放存储空间",
+  "tech": ["Java", "Android SDK", "MediaStore API", "Gradle"],
+  "featured": true,
+  "github": "https://github.com/T4oist/Danyilu_photo-management",
+  "link": "",
+  "links": [
+    {
+      "type": "github",
+      "url": "https://github.com/T4oist/Danyilu_photo-management",
+      "label": "GitHub"
+    }
+  ]
+}
