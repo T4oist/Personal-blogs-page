@@ -1,255 +1,142 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-import { SITE, SOCIAL_LINKS } from '@/config';
+import { SOCIAL_LINKS } from '@/config';
 ---
 
 <BaseLayout title="Profile | T4oist">
   <div class="max-w-4xl mx-auto px-6 py-24">
-    <div class="animate-enter">
-      <div class="space-y-12">
-        <section>
-          <h2 class="text-2xl font-bold mb-6 tracking-tight" style="color: var(--c-text);">
-            About Me
-          </h2>
-          <div class="prose max-w-none">
-            <p style="color: var(--c-text-2); line-height: 1.8;">
-                Hi! I'm <span class="name-highlight">T4oist</span>, a full-stack developer who is diligently studying.
-                Nice to meet u.
-            </p>
-          </div>
-        </section>
+    <div class="animate-enter space-y-12">
+      <section>
+        <h2 class="text-2xl font-bold mb-6 tracking-tight" style="color: var(--c-text);">About Me</h2>
+        <div class="prose max-w-none">
+          <p style="color: var(--c-text-2); line-height: 1.8;">
+            Hi! I'm <span class="name-highlight">T4oist</span>, a full-stack developer who is diligently studying.
+            Nice to meet u.
+          </p>
+        </div>
+      </section>
 
-        <section>
-          <h2 class="text-2xl font-bold mb-6 tracking-tight" style="color: var(--c-text);">
-            Interests
-          </h2>
-          <div class="flex flex-wrap gap-3">
-            <span 
-              class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 flex items-center gap-2"
-              style="background-color: var(--c-bg-soft); color: var(--c-text-2); border: 1px solid var(--c-border);"
-            >
-              <svg class="w-4 h-4" style="color: var(--c-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+      <section>
+        <h2 class="text-2xl font-bold mb-6 tracking-tight" style="color: var(--c-text);">Interests</h2>
+        <div class="flex flex-wrap gap-3">
+          {[
+            { name: '摄影', icon: 'M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z M15 13a3 3 0 11-6 0 3 3 0 016 0z' },
+            { name: '动漫', icon: 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z' },
+            { name: '电影', icon: 'M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z' },
+            { name: 'FPS', icon: 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
+            { name: '日摇', icon: 'M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3' }
+          ].map((item) => (
+            <span class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 flex items-center gap-2" style="background-color: var(--c-bg-soft); color: var(--c-text-2); border: 1px solid var(--c-border);">
+              <svg class="w-4 h-4" style="color: var(--c-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d={item.icon}/>
               </svg>
-              摄影
+              {item.name}
             </span>
-            
-            <span 
-              class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 flex items-center gap-2"
-              style="background-color: var(--c-bg-soft); color: var(--c-text-2); border: 1px solid var(--c-border);"
-            >
-              <svg class="w-4 h-4" style="color: var(--c-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-              </svg>
-              动漫
-            </span>
-            
-            <span 
-              class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 flex items-center gap-2"
-              style="background-color: var(--c-bg-soft); color: var(--c-text-2); border: 1px solid var(--c-border);"
-            >
-              <svg class="w-4 h-4" style="color: var(--c-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/>
-              </svg>
-              电影
-            </span>
-            
-            <span 
-              class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 flex items-center gap-2"
-              style="background-color: var(--c-bg-soft); color: var(--c-text-2); border: 1px solid var(--c-border);"
-            >
-              <svg class="w-4 h-4" style="color: var(--c-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-              </svg>
-              FPS
-            </span>
-            
-            <span 
-              class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 flex items-center gap-2"
-              style="background-color: var(--c-bg-soft); color: var(--c-text-2); border: 1px solid var(--c-border);"
-            >
-              <svg class="w-4 h-4" style="color: var(--c-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
-              </svg>
-              日摇
-            </span>
-          </div>
-        </section>
+          ))}
+        </div>
+      </section>
 
-        <section>
-          <h2 class="text-2xl font-bold mb-6 tracking-tight" style="color: var(--c-text);">
-            Skills
-          </h2>
-          <div class="flex flex-wrap gap-3">
-            {['JavaScript', 'TypeScript', 'Vue', 'React', 'Node.js', 'Python', 'Astro', 'Tailwind CSS'].map((skill) => (
-              <span 
-                class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105"
-                style="background-color: var(--c-bg-soft); color: var(--c-text-2); border: 1px solid var(--c-border);"
-              >
-                {skill}
-              </span>
-            ))}
-          </div>
-        </section>
+      <section>
+        <h2 class="text-2xl font-bold mb-6 tracking-tight" style="color: var(--c-text);">Skills</h2>
+        <div class="flex flex-wrap gap-3">
+          {['JavaScript', 'TypeScript', 'Vue', 'React', 'Node.js', 'Python', 'Astro', 'Tailwind CSS'].map((skill) => (
+            <span class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105" style="background-color: var(--c-bg-soft); color: var(--c-text-2); border: 1px solid var(--c-border);">
+              {skill}
+            </span>
+          ))}
+        </div>
+      </section>
 
-        <section>
-          <h2 class="text-2xl font-bold mb-6 tracking-tight" style="color: var(--c-text);">
-            Find Me
-          </h2>
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {SOCIAL_LINKS.map((link) => {
-              const getIcon = (name: string) => {
-                switch(name) {
-                  case 'GitHub':
-                    return <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>;
-                  case 'Email':
-                    return <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>;
-                  case 'QQ':
-                    return <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.003 2c-2.265 0-6.29 1.364-6.29 7.325v1.195S3.55 14.96 3.55 17.474c0 .665.17 1.025.281 1.025.114 0 .902-.484 1.748-2.072 0 0-.18 2.197 1.904 3.967 0 0-1.77.495-1.77 1.182 0 .686 4.078.43 6.29.43 2.212 0 6.29.256 6.29-.43 0-.687-1.77-1.182-1.77-1.182 2.085-1.77 1.905-3.967 1.905-3.967.845 1.588 1.634 2.072 1.746 2.072.111 0 .283-.36.283-1.025 0-2.514-2.166-6.954-2.166-6.954V9.325C18.29 3.364 14.268 2 12.003 2z"/></svg>;
-                  case 'Bilibili':
-                    return <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906L17.813 4.653zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773H5.333zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373z"/></svg>;
-                  case 'KOOK':
-                    return <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>;
-                  default:
-                    return null;
-                }
-              };
-              
-              // 邮箱特殊处理
-              if (link.name === 'Email') {
-                return (
-                  <div class="relative">
-                    <button
-                      type="button"
-                      onclick="showEmailTooltip()"
-                      class="flex items-center gap-2 px-4 py-3 rounded-lg transition-all duration-200 hover:scale-105 cursor-pointer w-full"
-                      style="background-color: var(--c-bg-soft); color: var(--c-text-2); border: 1px solid var(--c-border);"
-                    >
-                      {getIcon(link.name)}
-                      <span class="text-sm font-medium">{link.name}</span>
-                    </button>
-                    
-                    <!-- 邮箱提示框 -->
-                    <div id="emailTooltip" class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 px-4 py-3 rounded-lg text-sm opacity-0 invisible transition-all duration-300 pointer-events-none shadow-lg" style="background-color: var(--c-bg-soft); color: var(--c-text); border: 1px solid var(--c-border); min-width: 240px;">
-                      <div class="flex flex-col gap-2">
-                        <div class="flex items-center gap-2 mb-1">
-                          <svg class="w-4 h-4" style="color: var(--c-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                          </svg>
-                          <span class="text-xs font-medium" style="color: var(--c-text-3);">邮箱地址</span>
-                        </div>
-                        <div class="flex items-center justify-between gap-3">
-                          <span class="font-mono text-sm" style="color: var(--c-primary);">ziteng_wang611@163.com</span>
-                          <button onclick="copyEmail()" class="px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 hover:scale-105" style="background-color: var(--c-primary); color: white;">
-                            复制
-                          </button>
-                        </div>
-                      </div>
-                      <div class="absolute top-full left-1/2 transform -translate-x-1/2 border-[6px] border-transparent" style="border-top-color: var(--c-border);"></div>
+      <section>
+        <h2 class="text-2xl font-bold mb-6 tracking-tight" style="color: var(--c-text);">Find Me</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {SOCIAL_LINKS.map((link) => (
+            link.name === 'Email' ? (
+              <div class="relative">
+                <button type="button" onclick="showEmailTooltip()" class="flex items-center gap-2 px-4 py-3 rounded-lg transition-all duration-200 hover:scale-105 cursor-pointer w-full" style="background-color: var(--c-bg-soft); color: var(--c-text-2); border: 1px solid var(--c-border);">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                  <span class="text-sm font-medium">{link.name}</span>
+                </button>
+                <div id="emailTooltip" class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 px-4 py-3 rounded-lg text-sm opacity-0 invisible transition-all duration-300 pointer-events-none shadow-lg z-50" style="background-color: var(--c-bg-soft); color: var(--c-text); border: 1px solid var(--c-border); min-width: 240px;">
+                  <div class="flex flex-col gap-2">
+                    <div class="flex items-center justify-between gap-3">
+                      <span class="font-mono text-sm" style="color: var(--c-primary);">ziteng_wang611@163.com</span>
+                      <button onclick="copyEmail()" class="px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 hover:scale-105" style="background-color: var(--c-primary); color: white;">复制</button>
                     </div>
                   </div>
-                );
-              }
-              
-              return (
-                <a 
-                  href={link.href || '#'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="flex items-center gap-2 px-4 py-3 rounded-lg transition-all duration-200 hover:scale-105"
-                  style="background-color: var(--c-bg-soft); color: var(--c-text-2); border: 1px solid var(--c-border);"
-                >
-                  {getIcon(link.name)}
-                  <span class="text-sm font-medium">{link.name}</span>
-                </a>
-              );
-            })}
-          </div>
-        </section>
-        
-        <script is:inline>
-          function showEmailTooltip() {
-            const tooltip = document.getElementById('emailTooltip');
-            tooltip.classList.remove('opacity-0', 'invisible');
-            tooltip.classList.add('opacity-100', 'visible');
-            
-            // 5秒后自动隐藏
-            setTimeout(() => {
-              hideEmailTooltip();
-            }, 5000);
-          }
-          
-          function hideEmailTooltip() {
-            const tooltip = document.getElementById('emailTooltip');
-            tooltip.classList.remove('opacity-100', 'visible');
-            tooltip.classList.add('opacity-0', 'invisible');
-          }
-          
-          function copyEmail() {
-            const email = 'ziteng_wang611@163.com';
-            navigator.clipboard.writeText(email).then(() => {
-              // 修改按钮文本和样式
-              const button = document.querySelector('button[onclick="copyEmail()"]');
-              const originalText = button.textContent;
-              button.textContent = '已复制';
-              button.style.backgroundColor = 'var(--c-primary-dark)';
-              
-              // 2秒后恢复
-              setTimeout(() => {
-                button.textContent = originalText;
-                button.style.backgroundColor = 'var(--c-primary)';
-              }, 2000);
-              
-              // 3秒后隐藏提示框
-              setTimeout(() => {
-                hideEmailTooltip();
-              }, 3000);
-            }).catch(err => {
-              console.error('复制失败:', err);
-              alert('复制失败，请手动复制邮箱地址');
-            });
-          }
-        </script>
-        
-        <style>
-          .name-highlight {
-            font-family: 'Dancing Script', cursive;
-            font-weight: 700;
-            font-size: 1.4em;
-            letter-spacing: 0.02em;
-            background: linear-gradient(135deg, var(--c-primary) 0%, #5cd69d 50%, var(--c-primary-light) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            position: relative;
-            display: inline-block;
-            transition: all 0.3s ease;
-            padding: 0 4px;
-          }
-          
-          .name-highlight:hover {
-            transform: scale(1.08) rotate(-2deg);
-            letter-spacing: 0.05em;
-          }
-          
-          .name-highlight::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, var(--c-primary), var(--c-primary-light));
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-          }
-          
-          .name-highlight:hover::after {
-            transform: scaleX(1);
-          }
-        </style>
-      </div>
+                </div>
+              </div>
+            ) : (
+              <a href={link.href || '#'} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-3 rounded-lg transition-all duration-200 hover:scale-105" style="background-color: var(--c-bg-soft); color: var(--c-text-2); border: 1px solid var(--c-border);">
+                {link.name === 'GitHub' && <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>}
+                {link.name === 'QQ' && <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.003 2c-2.265 0-6.29 1.364-6.29 7.325v1.195S3.55 14.96 3.55 17.474c0 .665.17 1.025.281 1.025.114 0 .902-.484 1.748-2.072 0 0-.18 2.197 1.904 3.967 0 0-1.77.495-1.77 1.182 0 .686 4.078.43 6.29.43 2.212 0 6.29.256 6.29-.43 0-.687-1.77-1.182-1.77-1.182 2.085-1.77 1.905-3.967 1.905-3.967.845 1.588 1.634 2.072 1.746 2.072.111 0 .281-.36.281-1.025 0-2.514-2.164-6.954-2.164-6.954V9.325C18.29 3.364 14.268 2 12.003 2z"/></svg>}
+                {link.name === 'Bilibili' && <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906L17.813 4.653zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773H5.333zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373z"/></svg>}
+                {link.name === 'KOOK' && <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>}
+                <span class="text-sm font-medium">{link.name}</span>
+              </a>
+            )
+          ))}
+        </div>
+      </section>
     </div>
   </div>
+
+  <script is:inline>
+    function showEmailTooltip() {
+      const tooltip = document.getElementById('emailTooltip');
+      tooltip.classList.remove('opacity-0', 'invisible');
+      tooltip.classList.add('opacity-100', 'visible');
+      setTimeout(() => hideEmailTooltip(), 5000);
+    }
+    
+    function hideEmailTooltip() {
+      document.getElementById('emailTooltip').classList.replace('opacity-100', 'opacity-0');
+      document.getElementById('emailTooltip').classList.replace('visible', 'invisible');
+    }
+    
+    function copyEmail() {
+      navigator.clipboard.writeText('ziteng_wang611@163.com').then(() => {
+        const btn = document.querySelector('button[onclick="copyEmail()"]');
+        btn.textContent = '已复制';
+        setTimeout(() => { btn.textContent = '复制'; hideEmailTooltip(); }, 2000);
+      });
+    }
+  </script>
+
+  <style>
+    .name-highlight {
+      font-family: 'Dancing Script', cursive;
+      font-weight: 700;
+      font-size: 1.4em;
+      letter-spacing: 0.02em;
+      background: linear-gradient(135deg, var(--c-primary) 0%, #5cd69d 50%, var(--c-primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+      display: inline-block;
+      transition: all 0.3s ease;
+      padding: 0 4px;
+    }
+    
+    .name-highlight:hover {
+      transform: scale(1.08) rotate(-2deg);
+    }
+    
+    .name-highlight::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--c-primary), var(--c-primary-light));
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    
+    .name-highlight:hover::after {
+      transform: scaleX(1);
+    }
+  </style>
 </BaseLayout>

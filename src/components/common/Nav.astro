@@ -10,24 +10,10 @@ const currentPath = Astro.url.pathname;
       <a href="/" class="flex items-center group" title={SITE.title}>
         <div class="logo-wrapper">
           <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <!-- 简约圆形外框 -->
-            <circle 
-              cx="50" cy="50" r="40" 
-              fill="none" 
-              stroke="currentColor" 
-              stroke-width="2"
-              class="logo-circle"
-            />
-            
-            <!-- 中心十字线 -->
+            <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="2" class="logo-circle"/>
             <line x1="35" y1="50" x2="65" y2="50" stroke="currentColor" stroke-width="2" class="logo-line"/>
             <line x1="50" y1="35" x2="50" y2="65" stroke="currentColor" stroke-width="2" class="logo-line"/>
-            
-            <!-- 中心圆点 -->
             <circle cx="50" cy="50" r="4" fill="currentColor" class="logo-dot"/>
-            
-            <!-- 简约发光效果 -->
-            <circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2" class="logo-glow"/>
           </svg>
         </div>
       </a>
@@ -37,31 +23,18 @@ const currentPath = Astro.url.pathname;
           <a 
             href={link.href}
             class:list={[
-              "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 relative overflow-hidden group",
-              currentPath === link.href 
-                ? "text-primary" 
-                : "hover:text-primary"
+              "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 relative overflow-hidden group nav-link",
+              currentPath === link.href ? "text-primary active" : "hover:text-primary"
             ]}
-            style={`color: ${currentPath === link.href ? 'var(--c-primary)' : 'var(--c-text-3)'};`}
-            class="nav-link"
-            onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'"
-            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'"
+            style={`color: ${currentPath === link.href ? 'var(--c-primary)' : 'var(--c-text-3)'}`}
           >
             {link.name}
-            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-transparent via-var(--c-primary) to-transparent transition-all duration-300 group-hover:w-full"></span>
-            
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-transparent via-[var(--c-primary)] to-transparent transition-all duration-300 group-hover:w-full"></span>
           </a>
         ))}
       </div>
       
-      <button 
-        id="mobile-menu-btn"
-        class="md:hidden p-2 rounded-lg transition-all duration-300 group"
-        style="color: var(--c-text-3);"
-        aria-label="Toggle menu"
-        onmouseover="this.style.transform='scale(1.1)'; this.style.backgroundColor='var(--c-bg-soft)'"
-        onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'"
-      >
+      <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg transition-all duration-300 hover:scale-110 hover:bg-[var(--c-bg-soft)]" style="color: var(--c-text-3);" aria-label="Toggle menu">
         <svg class="w-5 h-5 transition-transform duration-300 group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
@@ -73,21 +46,15 @@ const currentPath = Astro.url.pathname;
     <div class="px-6 py-4 space-y-1">
       {NAV_LINKS.map((link) => (
         <a 
-        href={link.href}
-        class:list={[
-          "block px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 relative overflow-hidden group",
-          currentPath === link.href 
-            ? "text-primary" 
-            : "hover:text-primary"
-        ]}
-        style={`color: ${currentPath === link.href ? 'var(--c-primary)' : 'var(--c-text-3)'};`}
-        class="nav-link"
-        onmouseover="this.style.transform='translateX(4px)'; this.style.backgroundColor='var(--c-bg-soft)'"
-        onmouseout="this.style.transform='translateX(0)'; this.style.backgroundColor='transparent'"
-      >
-        {link.name}
-        <span class="absolute left-0 top-0 h-full w-0.5 bg-gradient-to-b from-transparent via-var(--c-primary) to-transparent transition-all duration-300 group-hover:h-full"></span>
-      </a>
+          href={link.href}
+          class:list={[
+            "block px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 relative overflow-hidden group nav-link",
+            currentPath === link.href ? "text-primary active" : "hover:text-primary"
+          ]}
+          style={`color: ${currentPath === link.href ? 'var(--c-primary)' : 'var(--c-text-3)'}`}
+        >
+          {link.name}
+        </a>
       ))}
     </div>
   </div>
@@ -106,100 +73,21 @@ const currentPath = Astro.url.pathname;
     height: 100%;
   }
   
-  /* 悬停动画 */
   .group:hover .logo-wrapper {
     color: var(--c-primary);
     transform: rotate(5deg);
   }
   
-  .group:hover .logo-circle {
-    animation: pulse-circle 1.5s ease forwards;
-  }
-  
-  .group:hover .logo-line {
-    animation: pulse-line 1s ease 0.3s forwards;
-  }
-  
-  .group:hover .logo-dot {
-    animation: pulse-dot 0.8s ease 0.6s forwards;
-  }
-  
-  .group:hover .logo-glow {
-    animation: pulse-glow 1.2s ease 0.9s forwards;
-  }
-  
-  @keyframes pulse-circle {
-    0% {
-      stroke-dasharray: 251;
-      stroke-dashoffset: 0;
-    }
-    50% {
-      stroke-dashoffset: 251;
-    }
-    100% {
-      stroke-dashoffset: 0;
-    }
-  }
-  
-  @keyframes pulse-line {
-    0% {
-      stroke-dasharray: 30;
-      stroke-dashoffset: 0;
-    }
-    50% {
-      stroke-dashoffset: 30;
-    }
-    100% {
-      stroke-dashoffset: 0;
-    }
-  }
-  
-  @keyframes pulse-dot {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.2);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
-  
-  @keyframes pulse-glow {
-    0% {
-      transform: scale(1);
-      opacity: 0.2;
-    }
-    50% {
-      transform: scale(1.1);
-      opacity: 0.4;
-    }
-    100% {
-      transform: scale(1);
-      opacity: 0.2;
-    }
-  }
-  
-  /* 导航链接动效 - 简洁版 */
   .nav-link {
     position: relative;
-    overflow: hidden;
     cursor: pointer;
   }
   
-  /* 点击动画 */
-  .nav-link:active {
-    transform: scale(0.95);
-  }
-  
-  /* 悬停背景效果 */
   .nav-link:hover {
     background-color: rgba(66, 184, 131, 0.1);
   }
   
-  /* 活动状态 */
-  .nav-link.text-primary {
+  .nav-link.active {
     background-color: rgba(66, 184, 131, 0.15);
   }
 </style>
@@ -207,8 +95,5 @@ const currentPath = Astro.url.pathname;
 <script>
   const btn = document.getElementById('mobile-menu-btn');
   const menu = document.getElementById('mobile-menu');
-  
-  btn?.addEventListener('click', () => {
-    menu?.classList.toggle('hidden');
-  });
+  btn?.addEventListener('click', () => menu?.classList.toggle('hidden'));
 </script>

@@ -14,8 +14,7 @@ interface Props {
 }
 
 const { 
-  title = 'T4oist 博客',
-  repo = 'T4oist/T4oist-blog',
+  repo = 'T4oist/Personal-blogs-page',
   repoId = '',
   category = 'Announcements',
   categoryId = '',
@@ -29,97 +28,51 @@ const {
 ---
 
 <div class="comments-section">
-  <h2 class="text-2xl font-bold mb-6" style="color: var(--c-text);">
-    评论
-  </h2>
-  <div class="giscus-container">
-    <div id="giscus-comments"></div>
-    
-    <!-- Giscus 加载提示 -->
-    <div id="giscus-loading" class="giscus-loading">
-      正在加载评论...
-    </div>
-    
-    <!-- Giscus 配置提示 -->
-    <div id="giscus-config" class="giscus-config">
-      <div class="config-content">
-        <h3>评论功能配置</h3>
-        <p>要启用评论功能，请先配置 Giscus GitHub App。</p>
-        <ol>
-          <li>访问 <a href="https://github.com/apps/giscus" target="_blank">Giscus GitHub App</a></li>
-          <li>安装到你的仓库</li>
-          <li>在 <code>src/config.ts</code> 中配置 GISCUS_REPO_ID 和 GISCUS_CATEGORY_ID</li>
-        </ol>
-        <p>或者，你可以手动配置以下参数：</p>
-        <pre><code>repo: {repo}
-category: {category}
-mapping: {mapping}</code></pre>
-      </div>
-    </div>
-  </div>
+  <h2 class="text-2xl font-bold mb-6" style="color: var(--c-text);">评论</h2>
+  <div id="giscus-comments"></div>
+  <div id="giscus-loading" style="text-align: center; color: var(--c-text-3); padding: 3rem 2rem;">正在加载评论...</div>
 </div>
 
-<script define:vars={{ title, repo, repoId, category, categoryId, mapping, reactionsEnabled, emitMetadata, inputPosition, theme, lang }}>
-  // Giscus 配置
-  const giscusConfig = {
-    src: 'https://giscus.app/client.js',
-    'data-repo': repo,
-    'data-repo-id': repoId,
-    'data-category': category,
-    'data-category-id': categoryId,
-    'data-mapping': mapping,
-    'data-reactions-enabled': reactionsEnabled ? '1' : '0',
-    'data-emit-metadata': emitMetadata ? '1' : '0',
-    'data-input-position': inputPosition,
-    'data-theme': theme,
-    'data-lang': lang,
-    crossorigin: 'anonymous',
-    async: true
-  };
-
-  // 初始化 Giscus
-  function initializeGiscus() {
-    const giscusElement = document.getElementById('giscus-comments');
-    const loadingElement = document.getElementById('giscus-loading');
-    const configElement = document.getElementById('giscus-config');
+<script define:vars={{ repo, repoId, category, categoryId, mapping, reactionsEnabled, emitMetadata, inputPosition, theme, lang }} is:inline>
+  function initGiscus() {
+    const container = document.getElementById('giscus-comments');
+    const loading = document.getElementById('giscus-loading');
     
-    // 检查是否配置了必要的参数
     if (!repoId || !categoryId) {
-      loadingElement.style.display = 'none';
-      configElement.style.display = 'block';
+      loading.textContent = '请配置 Giscus 以启用评论功能';
       return;
     }
     
-    // 创建 script 元素
     const script = document.createElement('script');
-    Object.keys(giscusConfig).forEach(key => {
-      script.setAttribute(key, giscusConfig[key]);
-    });
+    script.src = 'https://giscus.app/client.js';
+    script.setAttribute('data-repo', repo);
+    script.setAttribute('data-repo-id', repoId);
+    script.setAttribute('data-category', category);
+    script.setAttribute('data-category-id', categoryId);
+    script.setAttribute('data-mapping', mapping);
+    script.setAttribute('data-reactions-enabled', reactionsEnabled ? '1' : '0');
+    script.setAttribute('data-emit-metadata', emitMetadata ? '1' : '0');
+    script.setAttribute('data-input-position', inputPosition);
+    script.setAttribute('data-theme', theme);
+    script.setAttribute('data-lang', lang);
+    script.async = true;
+    script.crossOrigin = 'anonymous';
     
-    // 添加到页面
-    giscusElement.appendChild(script);
-    
-    // 隐藏加载提示
-    loadingElement.style.display = 'none';
+    container.appendChild(script);
+    loading.style.display = 'none';
   }
 
-  // 使用 Intersection Observer 延迟加载评论
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        initializeGiscus();
+        initGiscus();
         observer.disconnect();
       }
     });
-  }, {
-    rootMargin: '100px'
-  });
+  }, { rootMargin: '100px' });
 
-  // 观察评论区域
-  const commentsSection = document.querySelector('.comments-section');
-  if (commentsSection) {
-    observer.observe(commentsSection);
-  }
+  const section = document.querySelector('.comments-section');
+  if (section) observer.observe(section);
 </script>
 
 <style>
@@ -127,199 +80,5 @@ mapping: {mapping}</code></pre>
     margin-top: 4rem;
     padding-top: 3rem;
     border-top: 1px solid var(--c-border);
-    position: relative;
-  }
-  
-  .comments-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--c-primary), transparent);
-  }
-  
-  .giscus-container {
-    position: relative;
-    min-height: 200px;
-    background: var(--c-bg-soft);
-    border-radius: 12px;
-    padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    border: 1px solid var(--c-border);
-    transition: all 0.3s ease;
-  }
-  
-  .giscus-container:hover {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-    transform: translateY(-2px);
-  }
-  
-  .giscus-loading {
-    text-align: center;
-    color: var(--c-text-3);
-    padding: 3rem 2rem;
-    background: linear-gradient(135deg, var(--c-bg-soft) 0%, var(--c-bg-mute) 100%);
-    border-radius: 8px;
-    font-size: 1.1rem;
-  }
-  
-  .giscus-config {
-    display: none;
-    background: linear-gradient(135deg, var(--c-bg-soft) 0%, var(--c-bg-mute) 100%);
-    border: 1px solid var(--c-border);
-    border-radius: 12px;
-    padding: 2rem;
-    margin-top: 1rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  }
-  
-  .config-content h3 {
-    margin-bottom: 1rem;
-    color: var(--c-text);
-    font-size: 1.25rem;
-    font-weight: 600;
-    background: linear-gradient(135deg, var(--c-primary) 0%, var(--c-primary-dark) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  .config-content p {
-    margin-bottom: 1rem;
-    color: var(--c-text-2);
-    line-height: 1.6;
-    font-size: 0.95rem;
-  }
-  
-  .config-content ol {
-    margin-left: 1.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  .config-content li {
-    margin-bottom: 0.5rem;
-    color: var(--c-text-2);
-    position: relative;
-  }
-  
-  .config-content li::before {
-    content: '→';
-    color: var(--c-primary);
-    font-weight: bold;
-    margin-right: 0.5rem;
-  }
-  
-  .config-content a {
-    color: var(--c-primary);
-    text-decoration: none;
-    font-weight: 500;
-    border-bottom: 1px solid transparent;
-    transition: all 0.2s ease;
-  }
-  
-  .config-content a:hover {
-    color: var(--c-primary-dark);
-    border-bottom-color: var(--c-primary);
-  }
-  
-  .config-content pre {
-    background: var(--c-bg-mute);
-    padding: 1.5rem;
-    border-radius: 8px;
-    overflow-x: auto;
-    margin-top: 1rem;
-    border-left: 4px solid var(--c-primary);
-    font-size: 0.9rem;
-  }
-  
-  .config-content code {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.9rem;
-    color: var(--c-text);
-    background: rgba(0, 0, 0, 0.1);
-    padding: 0.2rem 0.4rem;
-    border-radius: 4px;
-  }
-  
-  /* Giscus 自定义样式 */
-  :global(.wl-header) {
-    border-bottom: 1px solid var(--c-border) !important;
-    padding-bottom: 1rem !important;
-    margin-bottom: 1.5rem !important;
-  }
-  
-  :global(.wl-card) {
-    background: var(--c-bg) !important;
-    border: 1px solid var(--c-border) !important;
-    border-radius: 8px !important;
-    margin-bottom: 1rem !important;
-    transition: all 0.2s ease !important;
-  }
-  
-  :global(.wl-card:hover) {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
-    transform: translateY(-1px) !important;
-  }
-  
-  :global(.wl-btn) {
-    background: linear-gradient(135deg, var(--c-primary) 0%, var(--c-primary-dark) 100%) !important;
-    border: none !important;
-    border-radius: 6px !important;
-    color: white !important;
-    font-weight: 500 !important;
-    transition: all 0.2s ease !important;
-  }
-  
-  :global(.wl-btn:hover) {
-    transform: translateY(-1px) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
-  }
-  
-  :global(.wl-input) {
-    background: var(--c-bg) !important;
-    border: 1px solid var(--c-border) !important;
-    border-radius: 6px !important;
-    color: var(--c-text) !important;
-    transition: all 0.2s ease !important;
-  }
-  
-  :global(.wl-input:focus) {
-    border-color: var(--c-primary) !important;
-    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1) !important;
-  }
-  
-  :global(.wl-count) {
-    color: var(--c-text-3) !important;
-    font-size: 0.9rem !important;
-  }
-  
-  :global(.wl-meta) {
-    color: var(--c-text-3) !important;
-    font-size: 0.85rem !important;
-  }
-  
-  :global(.wl-nick) {
-    color: var(--c-text) !important;
-    font-weight: 600 !important;
-  }
-  
-  :global(.wl-content) {
-    color: var(--c-text) !important;
-    line-height: 1.6 !important;
-  }
-  
-  :global(.wl-reaction) {
-    background: var(--c-bg-soft) !important;
-    border: 1px solid var(--c-border) !important;
-    border-radius: 20px !important;
-    transition: all 0.2s ease !important;
-  }
-  
-  :global(.wl-reaction:hover) {
-    background: var(--c-primary) !important;
-    color: white !important;
-    transform: scale(1.05) !important;
   }
 </style>

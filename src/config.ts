@@ -3,10 +3,6 @@ export const SITE = {
   description: '"日进斗金"',
   author: 'T4oist',
   avatar: 'https://picui.ogmua.cn/s1/2026/04/05/69d22f1b494c0.webp',
-  email: '',
-  github: '',
-  qq: '',
-  bilibili: '',
 }
 
 export const NAV_LINKS = [
@@ -25,15 +21,14 @@ export const SOCIAL_LINKS = [
 ]
 
 export const GISCUS_CONFIG = {
-  // Giscus 配置 - 需要从 https://giscus.app 获取
-  repo: 'T4oist/Personal-blogs-page', // 你的 GitHub 仓库
-  repoId: 'R_kgDOR1RUPQ', // 从 giscus.app 获取（需要重新获取）
-  category: 'Announcements', // Discussions 分类
-  categoryId: 'DIC_kwDOR1RUPc4C52_w', // 从 giscus.app 获取（需要重新获取）
-  mapping: 'pathname', // 使用页面路径作为标识
-  reactionsEnabled: true, // 启用表情反应
-  emitMetadata: false, // 发送元数据
-  inputPosition: 'bottom', // 输入框位置
-  theme: 'preferred_color_scheme', // 主题跟随系统
-  lang: 'zh-CN', // 语言
+  repo: 'T4oist/Personal-blogs-page',
+  repoId: 'R_kgDOR1RUPQ',
+  category: 'Announcements',
+  categoryId: 'DIC_kwDOR1RUPc4C52_w',
+  mapping: 'pathname',
+  reactionsEnabled: true,
+  emitMetadata: false,
+  inputPosition: 'bottom',
+  theme: 'preferred_color_scheme',
+  lang: 'zh-CN',
 }
