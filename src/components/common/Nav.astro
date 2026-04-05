@@ -73,9 +73,91 @@ const currentPath = Astro.url.pathname;
     height: 100%;
   }
   
+  .logo-circle,
+  .logo-line,
+  .logo-dot {
+    transition: all 0.3s ease;
+  }
+  
+  .logo-circle {
+    stroke-dasharray: 251;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.6s ease, stroke 0.3s ease;
+  }
+  
+  .logo-line {
+    stroke-dasharray: 30;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.4s ease, stroke 0.3s ease;
+  }
+  
+  .logo-dot {
+    transition: fill 0.3s ease, transform 0.3s ease;
+    transform-origin: center;
+  }
+  
   .group:hover .logo-wrapper {
     color: var(--c-primary);
-    transform: rotate(5deg);
+    transform: rotate(15deg) scale(1.1);
+  }
+  
+  .group:hover .logo-circle {
+    stroke-dashoffset: 251;
+    stroke: var(--c-primary);
+    filter: drop-shadow(0 0 8px var(--c-primary));
+  }
+  
+  .group:hover .logo-line {
+    stroke-dashoffset: 30;
+    stroke: var(--c-primary);
+    filter: drop-shadow(0 0 6px var(--c-primary));
+  }
+  
+  .group:hover .logo-dot {
+    fill: var(--c-primary);
+    transform: scale(2) rotate(180deg);
+    filter: drop-shadow(0 0 10px var(--c-primary));
+  }
+  
+  @keyframes logo-draw {
+    0% {
+      stroke-dashoffset: 251;
+    }
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+  
+  @keyframes logo-draw-line {
+    0% {
+      stroke-dashoffset: 30;
+    }
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+  
+  @keyframes logo-pulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 0.8;
+    }
+  }
+  
+  .logo-circle {
+    animation: logo-draw 1.5s ease-out forwards;
+  }
+  
+  .logo-line {
+    animation: logo-draw-line 1s ease-out 0.5s forwards;
+  }
+  
+  .logo-dot {
+    animation: logo-pulse 2s ease-in-out infinite;
   }
   
   .nav-link {
