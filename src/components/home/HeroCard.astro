@@ -3,17 +3,21 @@ import { SITE } from '@/config';
 ---
 
 <div class="flex flex-col items-center pt-32 pb-14 animate-enter">
-  <img 
+  <img
     src={SITE.avatar}
     alt={SITE.author}
     width="144"
     height="144"
     loading="eager"
     fetchpriority="high"
-    decoding="async"
+    decoding="sync"
     class="w-36 h-36 rounded-full mb-6 ring-4 ring-offset-4 object-cover transition-transform duration-300 hover:scale-105"
     style="ring-color: var(--c-primary); ring-offset-color: var(--c-bg);"
+    onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
   />
+  <div class="w-36 h-36 rounded-full mb-6 ring-4 ring-offset-4 flex items-center justify-center text-4xl font-bold" style="display:none; ring-color: var(--c-primary); ring-offset-color: var(--c-bg); background-color: var(--c-bg-soft); color: var(--c-primary);">
+    {SITE.author.charAt(0)}
+  </div>
   
   <h1 class="text-4xl font-bold mb-3 tracking-tight" style="color: var(--c-text);">
     Hi, I'm <span class="text-primary">{SITE.author}</span>
