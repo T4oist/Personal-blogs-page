@@ -4,6 +4,11 @@ import TableOfContents from '@components/blog/TableOfContents.astro';
 import Comments from '@components/common/Comments.astro';
 import { GISCUS_CONFIG } from '../config';
 
+interface PostLink {
+  slug: string;
+  data: { title: string };
+}
+
 interface Props {
   title: string;
   description?: string;
@@ -11,9 +16,11 @@ interface Props {
   tags?: string[];
   readingTime?: string;
   headings?: { depth: number; slug: string; text: string }[];
+  prevPost?: PostLink | null;
+  nextPost?: PostLink | null;
 }
 
-const { title, description, date, tags = [], readingTime, headings = [] } = Astro.props;
+const { title, description, date, tags = [], readingTime, headings = [], prevPost = null, nextPost = null } = Astro.props;
 ---
 
 <BaseLayout title={`${title} | T4oist`} description={description}>
@@ -55,7 +62,40 @@ const { title, description, date, tags = [], readingTime, headings = [] } = Astr
         <div class="prose">
           <slot />
         </div>
-        
+
+        {(prevPost || nextPost) && (
+          <nav class="mt-12 pt-6 border-t grid grid-cols-1 sm:grid-cols-2 gap-4" style="border-color: var(--c-border);">
+            {prevPost ? (
+              <a
+                href={`/blog/${prevPost.slug}`}
+                class="group p-4 rounded-lg transition-all duration-200 hover:translate-x-1 text-left"
+                style="background-color: var(--c-bg-soft); border: 1px solid var(--c-border);"
+              >
+                <span class="block text-xs mb-1" style="color: var(--c-text-4);">← 上一篇</span>
+                <span class="text-sm font-medium group-hover:text-primary transition-colors" style="color: var(--c-text-2);">
+                  {prevPost.data.title}
+                </span>
+              </a>
+            ) : (
+              <div />
+            )}
+            {nextPost ? (
+              <a
+                href={`/blog/${nextPost.slug}`}
+                class="group p-4 rounded-lg transition-all duration-200 hover:-translate-x-1 text-right"
+                style="background-color: var(--c-bg-soft); border: 1px solid var(--c-border);"
+              >
+                <span class="block text-xs mb-1" style="color: var(--c-text-4);">下一篇 →</span>
+                <span class="text-sm font-medium group-hover:text-primary transition-colors" style="color: var(--c-text-2);">
+                  {nextPost.data.title}
+                </span>
+              </a>
+            ) : (
+              <div />
+            )}
+          </nav>
+        )}
+
         <Comments 
           repo={GISCUS_CONFIG.repo}
           repoId={GISCUS_CONFIG.repoId}

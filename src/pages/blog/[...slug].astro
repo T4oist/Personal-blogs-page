@@ -14,15 +14,25 @@ const { post } = Astro.props;
 const { Content, headings } = await post.render();
 
 const readingTime = Math.ceil(post.body.split(/\s+/).length / 200) + ' min read';
+
+const allPosts = await getCollection('blog', ({ data }) => data.published !== false);
+const sortedPosts = allPosts.sort((a, b) =>
+  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+const currentIndex = sortedPosts.findIndex(p => p.slug === post.slug);
+const prevPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
+const nextPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
 ---
 
-<PostLayout 
+<PostLayout
   title={post.data.title}
   description={post.data.description}
   date={post.data.date}
   tags={post.data.tags}
   readingTime={readingTime}
   headings={headings}
+  prevPost={prevPost}
+  nextPost={nextPost}
 >
   <Content />
 </PostLayout>
