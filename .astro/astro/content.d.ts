@@ -162,6 +162,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".md"] };
+"racing-simulator-dorm.md": {
+	id: "racing-simulator-dorm.md";
+  slug: "racing-simulator-dorm";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
 "welcome.md": {
 	id: "welcome.md";
   slug: "welcome";
