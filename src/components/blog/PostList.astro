@@ -12,30 +12,30 @@ const sortedPosts = posts.sort((a, b) =>
   new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
 
-const categories = Array.from(
-  new Set(sortedPosts.map((post) => post.data.category).filter(Boolean))
+const tags = Array.from(
+  new Set(sortedPosts.flatMap((post) => post.data.tags).filter(Boolean))
 );
 ---
 
 <div class="space-y-8">
-  <!-- 分类筛选器 -->
-  <div class="flex flex-wrap gap-2 mb-8" id="category-filter">
+  <!-- 标签筛选器 -->
+  <div class="flex flex-wrap gap-2 mb-8" id="tag-filter">
     <button 
-      data-category="all"
-      class="category-btn px-4 py-2 text-sm rounded-lg transition-all duration-300 relative overflow-hidden group active"
+      data-tag="all"
+      class="tag-btn px-4 py-2 text-sm rounded-lg transition-all duration-300 relative overflow-hidden group active"
       style="background: linear-gradient(135deg, var(--c-primary) 0%, var(--c-primary-dark) 100%); color: white;"
     >
       <span class="relative z-10">全部文章</span>
       <span class="shine-effect absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></span>
     </button>
 
-    {categories.map((category) => (
+    {tags.map((tag) => (
       <button
-        data-category={category}
-        class="category-btn px-4 py-2 text-sm rounded-lg transition-all duration-300 relative overflow-hidden group"
+        data-tag={tag}
+        class="tag-btn px-4 py-2 text-sm rounded-lg transition-all duration-300 relative overflow-hidden group"
         style="background-color: var(--c-bg-mute); color: var(--c-text-3);"
       >
-        <span class="relative z-10">{category}</span>
+        <span class="relative z-10">#{tag}</span>
       </button>
     ))}
   </div>
@@ -46,6 +46,7 @@ const categories = Array.from(
       <a 
         href={`/blog/${post.slug}`}
         data-category={post.data.category || ''}
+        data-tags={post.data.tags.join('|')}
         class="post-card group block p-6 rounded-lg transition-all duration-300 relative overflow-hidden animate-fade"
         style={`background-color: var(--c-bg-soft); border: 1px solid var(--c-border); animation-delay: ${index * 50}ms;`}
       >
@@ -98,23 +99,23 @@ const categories = Array.from(
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const categoryButtons = document.querySelectorAll<HTMLButtonElement>('.category-btn');
+  const tagButtons = document.querySelectorAll<HTMLButtonElement>('.tag-btn');
   const postCards = document.querySelectorAll<HTMLElement>('.post-card');
   const emptyState = document.getElementById('empty-state');
   
-  // 当前选中的分类
-  let currentCategory: string = 'all';
+  // 当前选中的标签
+  let currentTag: string = 'all';
   
-  categoryButtons.forEach(button => {
+  tagButtons.forEach(button => {
     button.addEventListener('click', () => {
-      const selectedCategory = button.getAttribute('data-category');
+      const selectedTag = button.getAttribute('data-tag');
       
-      if (selectedCategory === currentCategory) return;
+      if (selectedTag === currentTag) return;
       
-      currentCategory = selectedCategory || 'all';
+      currentTag = selectedTag || 'all';
       
       // 更新按钮样式
-      categoryButtons.forEach(btn => {
+      tagButtons.forEach(btn => {
         if (btn === button) {
           // 选中状态：绿色渐变背景
           btn.style.background = 'linear-gradient(135deg, var(--c-primary) 0%, var(--c-primary-dark) 100%)';
@@ -145,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       
       // 筛选文章
-      filterPosts(currentCategory);
+      filterPosts(currentTag);
     });
     
     // 悬停效果
@@ -164,12 +165,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   
-  function filterPosts(category: string) {
+  function filterPosts(tag: string) {
     let visibleCount = 0;
     
     postCards.forEach((card, index) => {
-      const postCategory = card.getAttribute('data-category') || '';
-      const shouldShow = category === 'all' || postCategory === category;
+      const postTags = (card.getAttribute('data-tags') || '').split('|').filter(Boolean);
+      const shouldShow = tag === 'all' || postTags.includes(tag);
       
       if (shouldShow) {
         // 显示卡片
@@ -201,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 显示或隐藏空状态
     setTimeout(() => {
       if (emptyState) {
-        if (visibleCount === 0 && category !== 'all') {
+        if (visibleCount === 0 && tag !== 'all') {
           emptyState.style.display = 'block';
           emptyState.style.animation = 'fadeInUp 0.5s ease-out';
         } else {
@@ -221,13 +222,13 @@ document.addEventListener('DOMContentLoaded', () => {
     overflow: hidden;
   }
   
-  .category-btn {
+  .tag-btn {
     cursor: pointer;
     position: relative;
     overflow: hidden;
   }
   
-  .category-btn::before {
+  .tag-btn::before {
     content: '';
     position: absolute;
     top: 0;
@@ -238,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
     transition: left 0.5s ease;
   }
   
-  .category-btn:hover::before {
+  .tag-btn:hover::before {
     left: 100%;
   }
   
