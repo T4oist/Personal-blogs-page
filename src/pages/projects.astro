@@ -73,10 +73,10 @@ const projects = await getCollection('projects').catch(() => []);
   }
 
   .project-link:hover {
-    transform: translateY(-3px) rotate(-3deg);
+    transform: translateY(-3px);
     background-color: var(--c-bg) !important;
     border-color: var(--c-primary) !important;
     color: var(--c-primary) !important;
-    box-shadow: 0 10px 20px var(--motion-glow);
+    box-shadow: 0 10px 24px color-mix(in srgb, var(--c-primary) 14%, transparent);
   }
 </style>

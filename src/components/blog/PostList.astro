@@ -145,7 +145,7 @@ function setupTagFilter() {
         setTimeout(() => {
           card.style.display = 'block';
           card.style.opacity = '0';
-          card.style.transform = 'translateY(14px) scale(0.98)';
+          card.style.transform = 'translateY(12px)';
           
           requestAnimationFrame(() => {
             card.style.transition = 'opacity var(--motion-duration-base) var(--motion-ease), transform var(--motion-duration-base) var(--motion-ease-pop), border-color var(--motion-duration-base) var(--motion-ease), box-shadow var(--motion-duration-base) var(--motion-ease)';
@@ -158,7 +158,7 @@ function setupTagFilter() {
       } else {
         card.style.transition = 'opacity var(--motion-duration-fast) var(--motion-ease), transform var(--motion-duration-fast) var(--motion-ease)';
         card.style.opacity = '0';
-        card.style.transform = 'translateY(10px) scale(0.98)';
+        card.style.transform = 'translateY(8px)';
         
         setTimeout(() => {
           card.style.display = 'none';
@@ -171,7 +171,7 @@ function setupTagFilter() {
       if (emptyState) {
         if (visibleCount === 0 && tag !== 'all') {
           emptyState.style.display = 'block';
-          emptyState.style.animation = 'soft-enter var(--motion-duration-base) var(--motion-ease)';
+          emptyState.style.animation = 'soft-rise var(--motion-duration-base) var(--motion-ease)';
         } else {
           emptyState.style.display = 'none';
         }
@@ -215,8 +215,8 @@ document.addEventListener('astro:page-load', setupTagFilter);
   }
 
   .tag-btn:hover {
-    transform: translateY(-3px) rotate(-1deg);
-    box-shadow: 0 10px 24px color-mix(in srgb, var(--c-primary) 18%, transparent);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px color-mix(in srgb, var(--c-primary) 14%, transparent);
   }
 
   .tag-btn:hover::before {

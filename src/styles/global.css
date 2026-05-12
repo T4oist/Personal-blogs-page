@@ -15,12 +15,13 @@
     --c-primary: #3eaf7c;
     --c-primary-light: #42b883;
     --c-primary-dark: #2d8c5c;
-    --motion-duration-fast: 180ms;
-    --motion-duration-base: 320ms;
-    --motion-duration-slow: 520ms;
-    --motion-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
-    --motion-ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1);
-    --motion-glow: color-mix(in srgb, var(--c-primary) 30%, transparent);
+    --motion-duration-fast: 160ms;
+    --motion-duration-base: 280ms;
+    --motion-duration-slow: 640ms;
+    --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --motion-ease-pop: cubic-bezier(0.16, 1, 0.3, 1);
+    --motion-glow: color-mix(in srgb, var(--c-primary) 22%, transparent);
+    --motion-shadow: 0 18px 42px rgba(0, 0, 0, 0.14);
   }
 
   .dark {
@@ -101,17 +102,18 @@
   .bg-primary { background-color: var(--c-primary); }
   .border-primary { border-color: var(--c-primary); }
 
-  .animate-enter { animation: soft-enter var(--motion-duration-slow) var(--motion-ease) both; }
-  .animate-enter-delay-1 { animation: soft-enter var(--motion-duration-slow) var(--motion-ease) 80ms both; }
-  .animate-enter-delay-2 { animation: soft-enter var(--motion-duration-slow) var(--motion-ease) 140ms both; }
-  .animate-enter-delay-3 { animation: soft-enter var(--motion-duration-slow) var(--motion-ease) 200ms both; }
-  .animate-enter-delay-4 { animation: soft-enter var(--motion-duration-slow) var(--motion-ease) 260ms both; }
-  .animate-fade { animation: soft-enter var(--motion-duration-base) var(--motion-ease) both; }
+  .animate-enter { animation: soft-rise var(--motion-duration-slow) var(--motion-ease) both; }
+  .animate-enter-delay-1 { animation: soft-rise var(--motion-duration-slow) var(--motion-ease) 90ms both; }
+  .animate-enter-delay-2 { animation: soft-rise var(--motion-duration-slow) var(--motion-ease) 170ms both; }
+  .animate-enter-delay-3 { animation: soft-rise var(--motion-duration-slow) var(--motion-ease) 250ms both; }
+  .animate-enter-delay-4 { animation: soft-rise var(--motion-duration-slow) var(--motion-ease) 330ms both; }
+  .animate-fade { animation: soft-rise var(--motion-duration-slow) var(--motion-ease) both; }
 
   .motion-surface {
     position: relative;
     isolation: isolate;
     overflow: hidden;
+    transform: translateZ(0);
     transition:
       transform var(--motion-duration-base) var(--motion-ease-pop),
       border-color var(--motion-duration-base) var(--motion-ease),
@@ -124,44 +126,48 @@
   .motion-surface::before {
     content: '';
     position: absolute;
-    inset: 0;
+    inset: 1px;
+    border-radius: inherit;
     z-index: -1;
     pointer-events: none;
-    background:
-      radial-gradient(circle at 18% 12%, color-mix(in srgb, var(--c-primary) 18%, transparent), transparent 34%),
-      linear-gradient(115deg, transparent 0%, transparent 38%, color-mix(in srgb, var(--c-primary-light) 16%, transparent) 50%, transparent 62%, transparent 100%);
+    background: linear-gradient(135deg, color-mix(in srgb, var(--c-primary) 12%, transparent), transparent 44%);
     opacity: 0;
-    transform: translateX(-18%) skewX(-8deg);
+    transform: scale(0.985);
     transition:
       opacity var(--motion-duration-base) var(--motion-ease),
-      transform var(--motion-duration-slow) var(--motion-ease);
+      transform var(--motion-duration-base) var(--motion-ease);
   }
 
   .motion-surface:hover {
-    transform: translateY(-4px) rotate(-0.35deg);
-    border-color: color-mix(in srgb, var(--c-primary) 62%, var(--c-border));
-    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.1), 0 0 22px var(--motion-glow);
+    transform: translateY(-5px);
+    border-color: color-mix(in srgb, var(--c-primary) 48%, var(--c-border));
+    box-shadow: var(--motion-shadow), 0 0 0 1px color-mix(in srgb, var(--c-primary) 12%, transparent);
   }
 
   .motion-surface:hover::before {
     opacity: 1;
-    transform: translateX(18%) skewX(-8deg);
+    transform: scale(1);
+  }
+
+  @keyframes soft-rise {
+    from { opacity: 0; transform: translateY(18px); filter: blur(8px); }
+    55% { opacity: 1; }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
   }
 
   @keyframes soft-enter {
-    from { opacity: 0; transform: translateY(14px) scale(0.98); }
-    70% { opacity: 1; transform: translateY(-2px) scale(1.01); }
+    from { opacity: 0; transform: translateY(18px); filter: blur(8px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
   /* View Transitions */
   @keyframes page-in {
-    from { opacity: 0; transform: translateY(10px) scale(0.99); }
+    from { opacity: 0; transform: translateY(8px); filter: blur(4px); }
     to { opacity: 1; transform: translateY(0); }
   }
   @keyframes page-out {
     from { opacity: 1; transform: translateY(0); }
-    to { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 0; transform: translateY(-6px); filter: blur(2px); }
   }
   ::view-transition-old(root) {
     animation: page-out var(--motion-duration-fast) var(--motion-ease) both;

@@ -171,13 +171,13 @@ const currentPath = Astro.url.pathname;
   }
   
   .nav-link:hover {
-    background-color: rgba(66, 184, 131, 0.1);
-    transform: translateY(-2px) rotate(-1deg);
-    box-shadow: 0 8px 20px color-mix(in srgb, var(--c-primary) 14%, transparent);
+    background-color: color-mix(in srgb, var(--c-primary) 10%, transparent);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px color-mix(in srgb, var(--c-primary) 10%, transparent);
   }
   
   .nav-link.active {
-    background-color: rgba(66, 184, 131, 0.15);
+    background-color: color-mix(in srgb, var(--c-primary) 14%, transparent);
   }
 </style>
 
