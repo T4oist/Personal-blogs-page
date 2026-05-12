@@ -17,7 +17,7 @@ const toggleTheme = () => {
 <template>
   <button
     @click="toggleTheme"
-    class="fixed bottom-6 right-6 p-3 rounded-full shadow-lg transition-all duration-300 z-50 hover:scale-110"
+    class="theme-toggle fixed bottom-6 right-6 p-3 rounded-full shadow-lg z-50"
     :style="{
       backgroundColor: 'var(--c-bg-soft)',
       border: '1px solid var(--c-border)',
@@ -49,3 +49,19 @@ const toggleTheme = () => {
     </svg>
   </button>
 </template>
+
+<style scoped>
+.theme-toggle {
+  transition:
+    transform var(--motion-duration-base) var(--motion-ease),
+    background-color var(--motion-duration-base) var(--motion-ease),
+    border-color var(--motion-duration-base) var(--motion-ease),
+    color var(--motion-duration-base) var(--motion-ease),
+    box-shadow var(--motion-duration-base) var(--motion-ease);
+}
+
+.theme-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+}
+</style>

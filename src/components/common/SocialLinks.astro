@@ -8,7 +8,7 @@ import { SOCIAL_LINKS } from '@/config';
       href={link.href}
       target="_blank"
       rel="noopener noreferrer"
-      class="p-2 rounded-lg transition-all duration-200 hover:scale-110"
+      class="social-link p-2 rounded-lg"
       style="color: var(--c-text-3);"
       aria-label={link.name}
     >
@@ -35,3 +35,18 @@ import { SOCIAL_LINKS } from '@/config';
     </a>
   ))}
 </div>
+
+<style>
+  .social-link {
+    transition:
+      transform var(--motion-duration-base) var(--motion-ease),
+      background-color var(--motion-duration-base) var(--motion-ease),
+      color var(--motion-duration-base) var(--motion-ease);
+  }
+
+  .social-link:hover {
+    transform: translateY(-2px);
+    background-color: var(--c-bg-soft);
+    color: var(--c-primary) !important;
+  }
+</style>

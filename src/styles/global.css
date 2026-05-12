@@ -15,6 +15,10 @@
     --c-primary: #3eaf7c;
     --c-primary-light: #42b883;
     --c-primary-dark: #2d8c5c;
+    --motion-duration-fast: 160ms;
+    --motion-duration-base: 240ms;
+    --motion-duration-slow: 320ms;
+    --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .dark {
@@ -42,7 +46,7 @@
     -moz-osx-font-smoothing: grayscale;
     background-color: var(--c-bg);
     color: var(--c-text);
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color var(--motion-duration-base) var(--motion-ease), color var(--motion-duration-base) var(--motion-ease);
   }
 
   ::selection { background-color: var(--c-primary); color: white; }
@@ -75,7 +79,7 @@
   @media (min-width: 768px) { .prose h3 { font-size: 1.5rem; } }
 
   .prose p { margin-top: 1rem; margin-bottom: 1rem; line-height: 1.75; color: var(--c-text-2); }
-  .prose a { color: var(--c-primary); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+  .prose a { color: var(--c-primary); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color var(--motion-duration-fast) var(--motion-ease); }
   .prose a:hover { border-bottom-color: var(--c-primary); }
   .prose code { padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-size: 0.875rem; background-color: var(--c-bg-mute); color: var(--c-primary); font-family: ui-monospace, monospace; }
   .prose pre { padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin: 1.5rem 0; background-color: var(--c-bg-soft); border: 1px solid var(--c-border); }
@@ -95,37 +99,57 @@
   .bg-primary { background-color: var(--c-primary); }
   .border-primary { border-color: var(--c-primary); }
 
-  .animate-enter { animation: enter 0.4s ease-out both; }
-  .animate-enter-delay-1 { animation: enter 0.4s ease-out 0.1s both; }
-  .animate-enter-delay-2 { animation: enter 0.4s ease-out 0.2s both; }
-  .animate-enter-delay-3 { animation: enter 0.4s ease-out 0.3s both; }
-  .animate-enter-delay-4 { animation: enter 0.4s ease-out 0.4s both; }
-  .animate-fade { animation: fade 0.3s ease-out both; }
+  .animate-enter { animation: soft-enter var(--motion-duration-slow) var(--motion-ease) both; }
+  .animate-enter-delay-1 { animation: soft-enter var(--motion-duration-slow) var(--motion-ease) 80ms both; }
+  .animate-enter-delay-2 { animation: soft-enter var(--motion-duration-slow) var(--motion-ease) 140ms both; }
+  .animate-enter-delay-3 { animation: soft-enter var(--motion-duration-slow) var(--motion-ease) 200ms both; }
+  .animate-enter-delay-4 { animation: soft-enter var(--motion-duration-slow) var(--motion-ease) 260ms both; }
+  .animate-fade { animation: soft-enter var(--motion-duration-base) var(--motion-ease) both; }
 
-  @keyframes enter {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  .motion-surface {
+    transition:
+      transform var(--motion-duration-base) var(--motion-ease),
+      border-color var(--motion-duration-base) var(--motion-ease),
+      background-color var(--motion-duration-base) var(--motion-ease),
+      box-shadow var(--motion-duration-base) var(--motion-ease),
+      color var(--motion-duration-base) var(--motion-ease),
+      opacity var(--motion-duration-base) var(--motion-ease);
   }
 
-  @keyframes fade {
-    from { opacity: 0; }
-    to { opacity: 1; }
+  .motion-surface:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--c-primary) 55%, var(--c-border));
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+  }
+
+  @keyframes soft-enter {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   /* View Transitions */
-  @keyframes slide-in {
-    from { opacity: 0; transform: translateY(16px); }
+  @keyframes page-in {
+    from { opacity: 0; transform: translateY(6px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  @keyframes slide-out {
+  @keyframes page-out {
     from { opacity: 1; transform: translateY(0); }
-    to { opacity: 0; transform: translateY(-12px); }
+    to { opacity: 0; transform: translateY(-4px); }
   }
   ::view-transition-old(root) {
-    animation: slide-out 0.25s cubic-bezier(0.4, 0, 0.2, 1) both;
+    animation: page-out var(--motion-duration-fast) var(--motion-ease) both;
   }
   ::view-transition-new(root) {
-    animation: slide-in 0.35s cubic-bezier(0.4, 0, 0.2, 1) both;
+    animation: page-in var(--motion-duration-base) var(--motion-ease) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 1ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 1ms !important;
+    }
   }
 
   @media (max-width: 768px) { html { font-size: 100%; } }
