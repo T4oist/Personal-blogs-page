@@ -11,6 +11,10 @@ try {
 const sortedPosts = posts.sort((a, b) => 
   new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
+
+const categories = Array.from(
+  new Set(sortedPosts.map((post) => post.data.category).filter(Boolean))
+);
 ---
 
 <div class="space-y-8">
@@ -24,22 +28,16 @@ const sortedPosts = posts.sort((a, b) =>
       <span class="relative z-10">全部文章</span>
       <span class="shine-effect absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></span>
     </button>
-    
-    <button 
-      data-category="技术"
-      class="category-btn px-4 py-2 text-sm rounded-lg transition-all duration-300 relative overflow-hidden group"
-      style="background-color: var(--c-bg-mute); color: var(--c-text-3);"
-    >
-      <span class="relative z-10">技术</span>
-    </button>
-    
-    <button 
-      data-category="生活"
-      class="category-btn px-4 py-2 text-sm rounded-lg transition-all duration-300 relative overflow-hidden group"
-      style="background-color: var(--c-bg-mute); color: var(--c-text-3);"
-    >
-      <span class="relative z-10">生活</span>
-    </button>
+
+    {categories.map((category) => (
+      <button
+        data-category={category}
+        class="category-btn px-4 py-2 text-sm rounded-lg transition-all duration-300 relative overflow-hidden group"
+        style="background-color: var(--c-bg-mute); color: var(--c-text-3);"
+      >
+        <span class="relative z-10">{category}</span>
+      </button>
+    ))}
   </div>
   
   <!-- 博客文章列表 -->
