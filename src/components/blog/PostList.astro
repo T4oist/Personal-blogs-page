@@ -12,9 +12,7 @@ const sortedPosts = posts.sort((a, b) =>
   new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
 
-const tags = Array.from(
-  new Set(sortedPosts.flatMap((post) => post.data.tags).filter(Boolean))
-);
+const filterTags = ['生活', '学习'];
 ---
 
 <div class="space-y-8">
@@ -29,7 +27,7 @@ const tags = Array.from(
       <span class="shine-effect absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></span>
     </button>
 
-    {tags.map((tag) => (
+    {filterTags.map((tag) => (
       <button
         data-tag={tag}
         class="tag-btn px-4 py-2 text-sm rounded-lg transition-all duration-300 relative overflow-hidden group"
@@ -98,7 +96,7 @@ const tags = Array.from(
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+function setupTagFilter() {
   const tagButtons = document.querySelectorAll<HTMLButtonElement>('.tag-btn');
   const postCards = document.querySelectorAll<HTMLElement>('.post-card');
   const emptyState = document.getElementById('empty-state');
@@ -107,6 +105,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentTag: string = 'all';
   
   tagButtons.forEach(button => {
+    if (button.dataset.filterReady === 'true') return;
+    button.dataset.filterReady = 'true';
+
     button.addEventListener('click', () => {
       const selectedTag = button.getAttribute('data-tag');
       
@@ -211,7 +212,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }, postCards.length * 50 + 300);
   }
-});
+}
+
+document.addEventListener('DOMContentLoaded', setupTagFilter);
+document.addEventListener('astro:page-load', setupTagFilter);
 </script>
 
 <style>
