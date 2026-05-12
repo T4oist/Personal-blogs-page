@@ -105,8 +105,14 @@ import { SOCIAL_LINKS } from '@/config';
 
   <style>
     .name-highlight {
+      font-family: 'Dancing Script', cursive;
       font-weight: 700;
-      color: var(--c-primary);
+      font-size: 1.4em;
+      letter-spacing: 0.02em;
+      background: linear-gradient(135deg, var(--c-primary) 0%, #5cd69d 50%, var(--c-primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       position: relative;
       display: inline-block;
       transition: color var(--motion-duration-base) var(--motion-ease), transform var(--motion-duration-base) var(--motion-ease-pop), filter var(--motion-duration-base) var(--motion-ease);
@@ -114,7 +120,7 @@ import { SOCIAL_LINKS } from '@/config';
     }
     
     .name-highlight:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px) rotate(-2deg) scale(1.04);
       filter: drop-shadow(0 0 10px var(--motion-glow));
     }
     
@@ -139,7 +145,7 @@ import { SOCIAL_LINKS } from '@/config';
     }
 
     .copy-btn:hover {
-      transform: translateY(-2px);
+      transform: translateY(-2px) rotate(-1deg);
       filter: brightness(1.05);
       box-shadow: 0 8px 18px var(--motion-glow);
     }
