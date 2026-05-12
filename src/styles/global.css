@@ -40,8 +40,6 @@
 
   html {
     scroll-behavior: smooth;
-    font-size: 110%;
-    font-family: 'Inter', 'Noto Sans SC', ui-sans-serif, system-ui, -apple-system, sans-serif;
   }
 
   body {
@@ -185,12 +183,9 @@
     }
   }
 
-  @media (max-width: 768px) { html { font-size: 100%; } }
   @media (max-width: 640px) { 
-    html { font-size: 95%; }
     .prose h1 { font-size: 1.5rem !important; }
     .prose h2 { font-size: 1.25rem !important; }
     .prose h3 { font-size: 1.125rem !important; }
   }
-  @media (min-width: 1441px) { html { font-size: 115%; } }
 }
