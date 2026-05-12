@@ -115,12 +115,13 @@ import { SOCIAL_LINKS } from '@/config';
       background-clip: text;
       position: relative;
       display: inline-block;
-      transition: color var(--motion-duration-base) var(--motion-ease), transform var(--motion-duration-base) var(--motion-ease);
+      transition: color var(--motion-duration-base) var(--motion-ease), transform var(--motion-duration-base) var(--motion-ease-pop), filter var(--motion-duration-base) var(--motion-ease);
       padding: 0 4px;
     }
     
     .name-highlight:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px) rotate(-2deg) scale(1.04);
+      filter: drop-shadow(0 0 10px var(--motion-glow));
     }
     
     .name-highlight::after {
@@ -140,12 +141,13 @@ import { SOCIAL_LINKS } from '@/config';
     }
 
     .copy-btn {
-      transition: transform var(--motion-duration-base) var(--motion-ease), filter var(--motion-duration-base) var(--motion-ease);
+      transition: transform var(--motion-duration-base) var(--motion-ease-pop), filter var(--motion-duration-base) var(--motion-ease), box-shadow var(--motion-duration-base) var(--motion-ease);
     }
 
     .copy-btn:hover {
-      transform: translateY(-1px);
+      transform: translateY(-2px) rotate(-1deg);
       filter: brightness(1.05);
+      box-shadow: 0 8px 18px var(--motion-glow);
     }
 
     .email-tooltip {

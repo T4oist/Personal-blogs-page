@@ -39,14 +39,16 @@ import { SOCIAL_LINKS } from '@/config';
 <style>
   .social-link {
     transition:
-      transform var(--motion-duration-base) var(--motion-ease),
+      transform var(--motion-duration-base) var(--motion-ease-pop),
       background-color var(--motion-duration-base) var(--motion-ease),
-      color var(--motion-duration-base) var(--motion-ease);
+      color var(--motion-duration-base) var(--motion-ease),
+      box-shadow var(--motion-duration-base) var(--motion-ease);
   }
 
   .social-link:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px) rotate(-4deg) scale(1.05);
     background-color: var(--c-bg-soft);
     color: var(--c-primary) !important;
+    box-shadow: 0 8px 18px var(--motion-glow);
   }
 </style>

@@ -53,7 +53,7 @@ const toggleTheme = () => {
 <style scoped>
 .theme-toggle {
   transition:
-    transform var(--motion-duration-base) var(--motion-ease),
+    transform var(--motion-duration-base) var(--motion-ease-pop),
     background-color var(--motion-duration-base) var(--motion-ease),
     border-color var(--motion-duration-base) var(--motion-ease),
     color var(--motion-duration-base) var(--motion-ease),
@@ -61,7 +61,7 @@ const toggleTheme = () => {
 }
 
 .theme-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px) rotate(10deg) scale(1.06);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.14), 0 0 22px var(--motion-glow);
 }
 </style>

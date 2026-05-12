@@ -16,7 +16,8 @@ const { title, description, date, tags, category, slug, image } = Astro.props;
 
 <a 
   href={`/blog/${slug}`}
-  class="card card-hover group block"
+  class="motion-surface group block p-6 rounded-lg overflow-hidden"
+  style="background-color: var(--c-bg-soft); border: 1px solid var(--c-border);"
 >
   {image && (
     <div class="mb-4 -mx-6 -mt-6 overflow-hidden rounded-t-xl">
