@@ -1,16 +1,43 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
+
+declare global {
+  interface Window {
+    __theme?: {
+      getTheme: () => 'dark' | 'light' | string
+      setTheme: (theme: 'dark' | 'light') => void
+    }
+  }
+}
 
 const isDark = ref(true)
 
-onMounted(() => {
+const syncTheme = () => {
   isDark.value = document.documentElement.classList.contains('dark')
+}
+
+onMounted(() => {
+  syncTheme()
+  window.addEventListener('theme-change', syncTheme)
+  document.addEventListener('astro:after-swap', syncTheme)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('theme-change', syncTheme)
+  document.removeEventListener('astro:after-swap', syncTheme)
 })
 
 const toggleTheme = () => {
-  isDark.value = !isDark.value
-  document.documentElement.classList.toggle('dark', isDark.value)
-  localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
+  const nextTheme = isDark.value ? 'light' : 'dark'
+
+  if (window.__theme) {
+    window.__theme.setTheme(nextTheme)
+  } else {
+    document.documentElement.classList.toggle('dark', nextTheme === 'dark')
+    localStorage.setItem('theme', nextTheme)
+  }
+
+  isDark.value = nextTheme === 'dark'
 }
 </script>
 

@@ -31,8 +31,39 @@ const { title = SITE.title, description = SITE.description } = Astro.props;
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
     <title>{title}</title>
     <script is:inline>
-      const theme = localStorage.getItem('theme') || 'dark';
-      document.documentElement.classList.toggle('dark', theme === 'dark');
+      (() => {
+        if (window.__theme?.applyTheme) {
+          window.__theme.applyTheme(window.__theme.getTheme());
+          return;
+        }
+
+        const storageKey = 'theme';
+        const getStoredTheme = () => localStorage.getItem(storageKey);
+        const getTheme = () => getStoredTheme() || 'dark';
+        const applyTheme = (theme) => {
+          const isDark = theme === 'dark';
+          document.documentElement.classList.toggle('dark', isDark);
+          document.documentElement.dataset.theme = theme;
+          window.dispatchEvent(new CustomEvent('theme-change', { detail: { theme, isDark } }));
+        };
+        const setTheme = (theme) => {
+          localStorage.setItem(storageKey, theme);
+          applyTheme(theme);
+        };
+
+        window.__theme = { getTheme, setTheme, applyTheme };
+        applyTheme(getTheme());
+
+        document.addEventListener('astro:before-swap', (event) => {
+          const theme = getTheme();
+          event.newDocument.documentElement.classList.toggle('dark', theme === 'dark');
+          event.newDocument.documentElement.dataset.theme = theme;
+        });
+
+        document.addEventListener('astro:after-swap', () => {
+          applyTheme(getTheme());
+        });
+      })();
     </script>
   </head>
   <body class="min-h-screen flex flex-col">
