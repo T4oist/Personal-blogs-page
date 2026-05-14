@@ -1,0 +1,174 @@
+<div class="custom-cursor" aria-hidden="true"></div>
+<div class="custom-cursor-dot" aria-hidden="true"></div>
+
+<style is:global>
+  @media (hover: hover) and (pointer: fine) {
+    html:not(.cursor-effect-disabled),
+    html:not(.cursor-effect-disabled) body {
+      cursor: none;
+    }
+
+    html:not(.cursor-effect-disabled) a,
+    html:not(.cursor-effect-disabled) button,
+    html:not(.cursor-effect-disabled) [role='button'],
+    html:not(.cursor-effect-disabled) input,
+    html:not(.cursor-effect-disabled) textarea,
+    html:not(.cursor-effect-disabled) select,
+    html:not(.cursor-effect-disabled) .interactive {
+      cursor: none !important;
+    }
+  }
+
+  .custom-cursor,
+  .custom-cursor-dot {
+    position: fixed;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0);
+    z-index: 99999;
+    will-change: left, top, width, height, opacity, border-color, background-color;
+  }
+
+  .custom-cursor {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.86);
+    border-radius: 999px;
+    background-color: transparent;
+    mix-blend-mode: difference;
+    transition:
+      width 150ms ease,
+      height 150ms ease,
+      border-color 150ms ease,
+      background-color 150ms ease,
+      opacity 120ms ease;
+  }
+
+  .custom-cursor-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    mix-blend-mode: difference;
+    transition: opacity 120ms ease;
+  }
+
+  .custom-cursor.is-visible,
+  .custom-cursor-dot.is-visible {
+    opacity: 1;
+  }
+
+  .custom-cursor.is-hovering {
+    width: 28px;
+    height: 28px;
+  }
+
+  @media (max-width: 767px), (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+    html,
+    html body,
+    html a,
+    html button,
+    html [role='button'],
+    html input,
+    html textarea,
+    html select,
+    html .interactive {
+      cursor: auto;
+    }
+
+    .custom-cursor,
+    .custom-cursor-dot {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  function setupCustomCursor() {
+    const root = document.documentElement;
+    const cursor = document.querySelector('.custom-cursor');
+    const dot = document.querySelector('.custom-cursor-dot');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 768px)').matches;
+
+    if (!(cursor instanceof HTMLElement) || !(dot instanceof HTMLElement) || reduceMotion || !finePointer) {
+      root.classList.add('cursor-effect-disabled');
+      return;
+    }
+
+    root.classList.remove('cursor-effect-disabled');
+
+    if (cursor.dataset.cursorReady === 'true') return;
+    cursor.dataset.cursorReady = 'true';
+
+    let pointerX = -100;
+    let pointerY = -100;
+    let ringX = -100;
+    let ringY = -100;
+    let frame = 0;
+
+    const interactiveSelector = [
+      'a',
+      'button',
+      '[role="button"]',
+      'input',
+      'textarea',
+      'select',
+      'summary',
+      '.interactive',
+    ].join(',');
+
+    const setPosition = () => {
+      ringX += (pointerX - ringX) * 0.13;
+      ringY += (pointerY - ringY) * 0.13;
+      cursor.style.left = `${ringX}px`;
+      cursor.style.top = `${ringY}px`;
+      dot.style.left = `${pointerX}px`;
+      dot.style.top = `${pointerY}px`;
+      frame = window.requestAnimationFrame(setPosition);
+    };
+
+    const show = () => {
+      cursor.classList.add('is-visible');
+      dot.classList.add('is-visible');
+    };
+
+    const hide = () => {
+      cursor.classList.remove('is-visible', 'is-hovering');
+      dot.classList.remove('is-visible');
+    };
+
+    const updatePointer = (event: MouseEvent) => {
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      show();
+
+      const target = event.target;
+      const isInteractive = target instanceof Element && Boolean(target.closest(interactiveSelector));
+      cursor.classList.toggle('is-hovering', isInteractive);
+    };
+
+    window.addEventListener('mousemove', updatePointer, { passive: true });
+    document.body.addEventListener('mouseleave', hide);
+    document.body.addEventListener('mouseenter', show);
+
+    frame = window.requestAnimationFrame(setPosition);
+
+    document.addEventListener(
+      'astro:before-swap',
+      () => {
+        window.removeEventListener('mousemove', updatePointer);
+        document.body.removeEventListener('mouseleave', hide);
+        document.body.removeEventListener('mouseenter', show);
+        window.cancelAnimationFrame(frame);
+        cursor.dataset.cursorReady = 'false';
+      },
+      { once: true },
+    );
+  }
+
+  document.addEventListener('DOMContentLoaded', setupCustomCursor);
+  document.addEventListener('astro:page-load', setupCustomCursor);
+</script>
