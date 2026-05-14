@@ -32,8 +32,8 @@
   }
 
   .custom-cursor {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border: 2px solid rgba(255, 255, 255, 0.86);
     border-radius: 999px;
     background-color: transparent;
@@ -50,7 +50,7 @@
     width: 4px;
     height: 4px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.92);
+    background: var(--c-primary);
     mix-blend-mode: difference;
     transition: opacity 120ms ease;
   }
@@ -61,8 +61,8 @@
   }
 
   .custom-cursor.is-hovering {
-    width: 28px;
-    height: 28px;
+    width: 25px;
+    height: 25px;
   }
 
   @media (max-width: 767px), (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
@@ -121,8 +121,8 @@
     ].join(',');
 
     const setPosition = () => {
-      ringX += (pointerX - ringX) * 0.13;
-      ringY += (pointerY - ringY) * 0.13;
+      ringX += (pointerX - ringX) * 0.09;
+      ringY += (pointerY - ringY) * 0.09;
       cursor.style.left = `${ringX}px`;
       cursor.style.top = `${ringY}px`;
       dot.style.left = `${pointerX}px`;
