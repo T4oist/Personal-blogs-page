@@ -124,22 +124,6 @@ import { SOCIAL_LINKS } from '@/config';
       filter: drop-shadow(0 0 10px var(--motion-glow));
     }
     
-    .name-highlight::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: linear-gradient(90deg, var(--c-primary), var(--c-primary-light));
-      transform: scaleX(0);
-      transition: transform var(--motion-duration-base) var(--motion-ease);
-    }
-    
-    .name-highlight:hover::after {
-      transform: scaleX(1);
-    }
-
     .copy-btn {
       transition: transform var(--motion-duration-base) var(--motion-ease-pop), filter var(--motion-duration-base) var(--motion-ease), box-shadow var(--motion-duration-base) var(--motion-ease);
     }
