@@ -32,7 +32,7 @@ const isActiveLink = (href: string) => {
         </div>
       </a>
       
-      <div class="hidden md:flex items-center gap-1">
+      <div class="hidden md:flex items-center gap-8">
         {NAV_LINKS.map((link) => {
           const isActive = isActiveLink(link.href);
 
@@ -40,20 +40,19 @@ const isActiveLink = (href: string) => {
           <a 
             href={link.href}
             class:list={[
-              "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 relative overflow-hidden group nav-link",
+              "nav-link",
               isActive ? "text-primary active" : "hover:text-primary"
             ]}
             style={`color: ${isActive ? 'var(--c-primary)' : 'var(--c-text-3)'}`}
             aria-current={isActive ? 'page' : undefined}
           >
             {link.name}
-            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-transparent via-[var(--c-primary)] to-transparent transition-all duration-300 group-hover:w-full"></span>
           </a>
           );
         })}
       </div>
       
-      <button id="mobile-menu-btn" type="button" class="md:hidden p-2 rounded-lg transition-all duration-300 hover:scale-110 hover:bg-[var(--c-bg-soft)]" style="color: var(--c-text-3);" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
+      <button id="mobile-menu-btn" type="button" class="md:hidden p-2 transition-all duration-300 hover:scale-110" style="color: var(--c-text-3);" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
         <svg class="w-5 h-5 transition-transform duration-300 group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
@@ -62,7 +61,7 @@ const isActiveLink = (href: string) => {
   </div>
   
   <div id="mobile-menu" class="hidden md:hidden border-t" style="border-color: var(--c-border); background-color: var(--c-bg);">
-    <div class="px-6 py-4 space-y-1">
+    <div class="px-6 py-4 space-y-3">
       {NAV_LINKS.map((link) => {
         const isActive = isActiveLink(link.href);
 
@@ -70,7 +69,7 @@ const isActiveLink = (href: string) => {
         <a 
           href={link.href}
           class:list={[
-            "block px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 relative overflow-hidden group nav-link",
+            "block nav-link",
             isActive ? "text-primary active" : "hover:text-primary"
           ]}
           style={`color: ${isActive ? 'var(--c-primary)' : 'var(--c-text-3)'}`}
@@ -187,22 +186,24 @@ const isActiveLink = (href: string) => {
   .nav-link {
     position: relative;
     cursor: pointer;
+    color: var(--c-text-3);
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1;
     transition:
-      background-color var(--motion-duration-base) var(--motion-ease),
       color var(--motion-duration-base) var(--motion-ease),
-      transform var(--motion-duration-base) var(--motion-ease-pop),
-      box-shadow var(--motion-duration-base) var(--motion-ease);
+      transform var(--motion-duration-base) var(--motion-ease-pop);
   }
   
   .nav-link:hover {
-    background-color: color-mix(in srgb, var(--c-primary) 10%, transparent);
-    transform: translateY(-1px);
-    box-shadow: 0 8px 22px color-mix(in srgb, var(--c-primary) 10%, transparent);
+    transform: translateY(-3px);
   }
   
   .nav-link.active {
-    background-color: color-mix(in srgb, var(--c-primary) 14%, transparent);
+    color: var(--c-primary);
   }
+
 </style>
 
 <script>
