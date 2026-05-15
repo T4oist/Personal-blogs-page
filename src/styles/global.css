@@ -17,7 +17,7 @@
     --c-primary-dark: #2d8c5c;
     --motion-duration-fast: 160ms;
     --motion-duration-base: 280ms;
-    --motion-duration-slow: 640ms;
+    --motion-duration-slow: 360ms;
     --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
     --motion-ease-pop: cubic-bezier(0.16, 1, 0.3, 1);
     --motion-glow: color-mix(in srgb, var(--c-primary) 22%, transparent);
@@ -148,30 +148,30 @@
   }
 
   @keyframes soft-rise {
-    from { opacity: 0; transform: translateY(18px); filter: blur(8px); }
+    from { opacity: 0; transform: translateY(12px); }
     55% { opacity: 1; }
-    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   @keyframes soft-enter {
-    from { opacity: 0; transform: translateY(18px); filter: blur(8px); }
+    from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
   /* View Transitions */
   @keyframes page-in {
-    from { opacity: 0; transform: translateY(8px); filter: blur(4px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
   @keyframes page-out {
-    from { opacity: 1; transform: translateY(0); }
-    to { opacity: 0; transform: translateY(-6px); filter: blur(2px); }
+    from { opacity: 1; }
+    to { opacity: 0; }
   }
   ::view-transition-old(root) {
-    animation: page-out var(--motion-duration-fast) var(--motion-ease) both;
+    animation: page-out 90ms ease-out both;
   }
   ::view-transition-new(root) {
-    animation: page-in var(--motion-duration-base) var(--motion-ease) both;
+    animation: page-in 120ms ease-out both;
   }
 
   @media (prefers-reduced-motion: reduce) {
