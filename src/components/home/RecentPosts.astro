@@ -35,9 +35,11 @@ const sortedPosts = posts
             {post.data.title}
           </h3>
           
-          <p class="text-sm mb-3 line-clamp-2" style="color: var(--c-text-3);">
-            {post.data.description}
-          </p>
+          {post.data.description && (
+            <p class="text-sm mb-3 line-clamp-2" style="color: var(--c-text-3);">
+              {post.data.description}
+            </p>
+          )}
           
           <div class="flex items-center gap-3 text-xs" style="color: var(--c-text-4);">
             <time>{dayjs(post.data.date).format('YYYY-MM-DD')}</time>

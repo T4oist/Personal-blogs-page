@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 
 interface Props {
   title: string;
-  description: string;
+  description?: string;
   date: Date;
   tags: string[];
   category?: string;
@@ -36,9 +36,11 @@ const { title, description, date, tags, category, slug, image } = Astro.props;
       {title}
     </h3>
     
-    <p class="text-dark-muted line-clamp-2">
-      {description}
-    </p>
+    {description && (
+      <p class="text-dark-muted line-clamp-2">
+        {description}
+      </p>
+    )}
     
     <div class="flex items-center gap-3 text-sm text-dark-muted">
       <time>{dayjs(date).format('YYYY年MM月DD日')}</time>
