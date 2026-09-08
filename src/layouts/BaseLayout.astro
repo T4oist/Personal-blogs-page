@@ -3,85 +3,54 @@ import '../styles/global.css';
 import { ViewTransitions } from 'astro:transitions';
 import Nav from '@components/common/Nav.astro';
 import Footer from '@components/common/Footer.astro';
-import ThemeToggle from '@components/common/ThemeToggle.vue';
-import CustomCursor from '@components/common/CustomCursor.astro';
+import Explorer from '@components/common/Explorer.astro';
 import { SITE } from '@/config';
-
-interface Props {
-  title?: string;
-  description?: string;
-}
-
-const { title = SITE.title, description = SITE.description } = Astro.props;
+interface Props { title?: string; description?: string }
+const { title = `${SITE.title} — 小道的个人空间`, description = '我是 T4oist，也可以叫我小道。这里放着我的作品、学习记录和生活碎片。保持好奇，持续折腾。' } = Astro.props;
 ---
-
 <!DOCTYPE html>
-<html lang="zh-CN" class="dark">
+<html lang="zh-CN" class="cursor-effect-disabled">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="author" content={SITE.author} />
+    <meta name="theme-color" content="#f33743" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" as="image" href="/avatar.webp" />
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" />
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
     <title>{title}</title>
+    <ViewTransitions />
     <script is:inline>
       (() => {
-        if (window.__theme?.applyTheme) {
-          window.__theme.applyTheme(window.__theme.getTheme());
-          return;
-        }
-
-        const storageKey = 'theme';
-        const getStoredTheme = () => localStorage.getItem(storageKey);
-        const getTheme = () => getStoredTheme() || 'dark';
-        const applyTheme = (theme) => {
-          const isDark = theme === 'dark';
-          document.documentElement.classList.toggle('dark', isDark);
+        if (window.__theme) return;
+        let theme = 'light';
+        try { theme = localStorage.getItem('theme') === 'dark' ? 'dark' : 'light'; } catch {}
+        const applyTheme = () => {
+          document.documentElement.classList.toggle('dark', theme === 'dark');
           document.documentElement.dataset.theme = theme;
-          window.dispatchEvent(new CustomEvent('theme-change', { detail: { theme, isDark } }));
+          document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#211715' : '#f33743');
+          window.dispatchEvent(new CustomEvent('theme-change'));
         };
-        const setTheme = (theme) => {
-          localStorage.setItem(storageKey, theme);
-          applyTheme(theme);
-        };
-
-        window.__theme = { getTheme, setTheme, applyTheme };
-        applyTheme(getTheme());
-
-        document.addEventListener('astro:before-swap', (event) => {
-          const theme = getTheme();
+        window.__theme = { getTheme: () => theme, setTheme: (value) => {
+          theme = value === 'dark' ? 'dark' : 'light';
+          try { localStorage.setItem('theme', theme); } catch {}
+          applyTheme();
+        }};
+        applyTheme();
+        document.addEventListener('astro:before-swap', event => {
           event.newDocument.documentElement.classList.toggle('dark', theme === 'dark');
           event.newDocument.documentElement.dataset.theme = theme;
         });
-
-        document.addEventListener('astro:after-swap', () => {
-          applyTheme(getTheme());
-        });
+        document.addEventListener('astro:after-swap', applyTheme);
       })();
     </script>
   </head>
-  <body class="min-h-screen flex flex-col">
-    <ViewTransitions />
+  <body>
+    <a class="skip-link" href="#main">跳到主要内容</a>
     <Nav />
-    <main class="flex-1">
-      <slot />
-    </main>
+    <main id="main" tabindex="-1"><slot /></main>
     <Footer />
-    <ThemeToggle client:load />
-    <CustomCursor />
+    <Explorer />
+    <div class="toast" role="status" aria-live="polite" id="toast"></div>
+    <script>import '../scripts/site';</script>
   </body>
-
-<style>
-  body {
-    background-color: var(--c-bg);
-    color: var(--c-text);
-  }
-</style>
 </html>

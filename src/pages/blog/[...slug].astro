@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import PostLayout from '@layouts/PostLayout.astro';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
+  const posts = await getCollection('blog', ({ data }) => data.published !== false);
   return posts.map((post) => ({
     params: { slug: post.slug },
     props: { post },
@@ -13,7 +13,9 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content, headings } = await post.render();
 
-const readingTime = Math.ceil(post.body.split(/\s+/).length / 200) + ' min read';
+const chineseCharacters = (post.body.match(/[\u3400-\u9fff]/g) || []).length;
+const otherWords = post.body.replace(/[\u3400-\u9fff]/g, ' ').split(/\s+/).filter(Boolean).length;
+const readingTime = `约 ${Math.max(1, Math.ceil(chineseCharacters / 400 + otherWords / 200))} 分钟阅读`;
 
 const allPosts = await getCollection('blog', ({ data }) => data.published !== false);
 const sortedPosts = allPosts.sort((a, b) =>

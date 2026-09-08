@@ -1,82 +1,28 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/common/Icon.astro';
 import { getCollection } from 'astro:content';
-
-const projects = await getCollection('projects').catch(() => []);
+const projects = await getCollection('projects');
+const categories = [
+  {id:'web', label:'Web', projects:['blog']},
+  {id:'mobile', label:'Mobile', projects:['danyilv']},
+  {id:'desktop', label:'Desktop', projects:['suretype']},
+];
 ---
-
-<BaseLayout title="Projects | T4oist">
-  <div class="max-w-4xl mx-auto px-6 py-24">
-    <header class="mb-12 animate-enter">
-      <h1 class="text-4xl font-bold mb-4 tracking-tight" style="color: var(--c-text);">Projects</h1>
-      <p class="text-lg" style="color: var(--c-text-3);">我的作品与开源项目</p>
-    </header>
-    
-    {projects.length > 0 ? (
-      <div class="grid gap-4 md:grid-cols-2">
-        {projects.map((project, index) => (
-          <div 
-            class="group p-6 rounded-lg motion-surface animate-fade"
-            style={`background-color: var(--c-bg-soft); border: 1px solid var(--c-border); animation-delay: ${index * 50}ms;`}
-          >
-            <div class="flex items-start justify-between mb-3">
-              <h3 class="text-lg font-semibold group-hover:text-primary transition-colors" style="color: var(--c-text);">
-                {project.data.name}
-              </h3>
-              {project.data.featured && (
-                <span class="px-2 py-0.5 text-xs rounded" style="background-color: var(--c-primary); color: white;">Featured</span>
-              )}
-            </div>
-            
-            <p class="text-sm mb-4" style="color: var(--c-text-3);">{project.data.description}</p>
-            
-            <div class="flex flex-wrap gap-2 mb-4">
-              {(project.data.tech || []).map((tech: string) => (
-                <span class="px-2 py-0.5 text-xs rounded" style="background-color: var(--c-bg-mute); color: var(--c-text-3);">{tech}</span>
-              ))}
-            </div>
-            
-            <div class="flex gap-3">
-              {(project.data.links || []).map((link: any) => (
-                <a 
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title={link.label}
-                  class="project-link flex items-center justify-center w-10 h-10 rounded-lg"
-                  style="background-color: var(--c-bg-mute); color: var(--c-text-3); border: 1px solid var(--c-border);"
-                >
-                  {link.type === 'github' && <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>}
-                  {link.type !== 'github' && <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>}
-                </a>
-              ))}
-            </div>
-          </div>
-        ))}
+<BaseLayout title="作品 | T4oist">
+  <div class="page-shell">
+    <header class="page-heading"><h1>WORK<span class="display-count">({String(projects.length).padStart(2,'0')})</span></h1></header>
+    <section data-filter-list data-param="type" aria-label="项目列表">
+      <div class="filter-toolbar"><div class="filter-chips" aria-label="按项目用途筛选"><button class="chip" data-filter="all" aria-pressed="true">All</button>{categories.map(category => <button class="chip" data-filter={category.id} aria-pressed="false">{category.label}</button>)}</div><span class="filter-count mono" role="status"></span></div>
+      <div class="project-index">
+        {projects.map((project,index) => <article class="project-entry" id={project.id} data-filter-item data-topics={JSON.stringify(categories.filter(category => category.projects.includes(project.id)).map(category => category.id))} data-search={`${project.data.name} ${project.data.description}`}>
+          <span class="project-entry-number" aria-hidden="true">{String(index+1).padStart(2,'0')}</span>
+          <div class="project-content"><h2>{project.data.name}</h2><p>{project.data.description}</p><div class="tech-list">{project.data.tech.map(t => <span>{t}</span>)}</div><div class="project-actions">{(project.data.links || [{url:project.data.github || project.data.link || '/projects', label:'Open'}]).map(link => <a class="button button-small" href={link.url} target="_blank" rel="noopener noreferrer">{link.label === '在线预览' ? 'Live' : link.label}<Icon name="external" size={17}/></a>)}</div></div>
+          <div class="project-mark" aria-hidden="true"><strong>{project.id === 'blog' ? 't4.' : project.id === 'suretype' ? '中' : '掸'}</strong></div>
+        </article>)}
       </div>
-    ) : (
-      <div class="p-8 text-center rounded-lg" style="background-color: var(--c-bg-soft); border: 1px solid var(--c-border);">
-        <p style="color: var(--c-text-4);">暂无项目...</p>
-      </div>
-    )}
+      <p class="empty-state filter-empty" hidden>No results.<button class="text-button" data-reset-filter>Reset ↗</button></p>
+    </section>
+    <a class="next-room" href="/profile"><span>ABOUT<Icon name="external" size={32}/></span></a>
   </div>
 </BaseLayout>
-
-<style>
-  .project-link {
-    transition:
-      transform var(--motion-duration-base) var(--motion-ease-pop),
-      background-color var(--motion-duration-base) var(--motion-ease),
-      border-color var(--motion-duration-base) var(--motion-ease),
-      color var(--motion-duration-base) var(--motion-ease),
-      box-shadow var(--motion-duration-base) var(--motion-ease);
-  }
-
-  .project-link:hover {
-    transform: translateY(-3px);
-    background-color: var(--c-bg) !important;
-    border-color: var(--c-primary) !important;
-    color: var(--c-primary) !important;
-    box-shadow: 0 10px 24px color-mix(in srgb, var(--c-primary) 14%, transparent);
-  }
-</style>

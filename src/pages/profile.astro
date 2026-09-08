@@ -1,144 +1,54 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-import { SOCIAL_LINKS } from '@/config';
+import Icon from '@components/common/Icon.astro';
+import { SITE, SOCIAL_LINKS } from '@/config';
+const topics = [
+  {name:'HELLO', subject:'Just saying hello', symbol:'✳'},
+  {name:'BUILD', subject:'An idea to build', symbol:'{ }'},
+  {name:'MUSIC', subject:'A track worth sharing', symbol:'♫'},
+];
+const email = SOCIAL_LINKS.find(link => link.name === 'Email')!.href;
+const interests = [
+  {name:'CODE', symbol:'{ }'},
+  {name:'SIM RACING', symbol:'◎'},
+  {name:'PHOTOGRAPHY', symbol:'◉'},
+  {name:'FPS', symbol:'⊕'},
+  {name:'J-ROCK', symbol:'♫'},
+  {name:'CINEMA', symbol:'▷'},
+];
 ---
-
-<BaseLayout title="Profile | T4oist">
-  <div class="max-w-4xl mx-auto px-6 py-24">
-    <div class="animate-enter space-y-12">
-      <section>
-        <h2 class="text-2xl font-bold mb-6 tracking-tight" style="color: var(--c-text);">About Me</h2>
-        <div class="prose max-w-none">
-          <p style="color: var(--c-text-2); line-height: 1.8;">
-            Hi! I'm <span class="name-highlight">T4oist</span>, a full-stack developer who is diligently studying.
-            Nice to meet u.
-          </p>
+<BaseLayout title="About | T4oist">
+  <div class="page-shell">
+    <header class="page-heading"><h1>ABOUT</h1></header>
+    <section class="profile-intro">
+      <div class="profile-portrait"><img src={SITE.avatar} alt="T4oist 的头像" width="320" height="320"/></div>
+      <div class="profile-copy"><h2>日进斗金</h2><p>我叫小道<br/>西安电子科技大学在读，学习全栈开发。<br/>写代码，拍照，听日摇。偶尔在宿舍跑几圈赛道。</p><a class="visual-link" href="#contact" aria-label="联系方式" title="Contact"><Icon name="external" size={28}/></a></div>
+    </section>
+    <section class="profile-section" id="interests"><div class="section-line"><h2 class="profile-label">INTERESTS</h2><span class="mono" aria-hidden="true">01</span></div>
+      <ul class="interest-index" aria-label="我的兴趣">
+        {interests.map((item,index) => <li class="interest-entry"><span class="interest-entry-symbol" aria-hidden="true">{item.symbol}</span><span class="interest-entry-copy"><strong>{item.name}</strong></span><span class="interest-entry-end"><span class="mono" aria-hidden="true">{String(index+1).padStart(2,'0')}</span></span></li>)}
+      </ul>
+    </section>
+    <section class="profile-section"><div class="section-line"><h2 class="profile-label">TRACES</h2><span class="mono" aria-hidden="true">02</span></div><div class="journey">
+      <a href="/blog/welcome"><time>2026.04</time><span><strong>第一篇。</strong></span><Icon name="external"/></a>
+      <a href="/blog/racing-simulator-dorm"><time>2026.05</time><span><strong>宿舍里的赛道。</strong></span><Icon name="external"/></a>
+      <a href="/blog/2026-05-14-self-directed-learning"><time>2026.05</time><span><strong>关于学习。</strong></span><Icon name="external"/></a>
+    </div></section>
+    <section class="profile-section"><div class="section-line"><h2 class="profile-label">TOOLS</h2><span class="mono" aria-hidden="true">03</span></div><div class="skill-cloud">{['JavaScript','TypeScript','Vue','React','Node.js','Python','Astro','Tailwind CSS'].map(skill => <span>{skill}</span>)}</div></section>
+    <section class="contact-playground" id="contact">
+      <div class="section-line"><span class="mono">04 / CONTACT</span><span class="contact-orbit" aria-hidden="true">✳</span></div>
+      <div class="contact-layout">
+        <h2>LET’S<br/><span>TALK.</span></h2>
+        <div class="contact-letter" data-contact-letter>
+          <div class="letter-top mono"><span>TO: T4OIST</span><span class="letter-postmark" aria-hidden="true">XI’AN<br/>CN</span></div>
+          <div class="contact-topics" role="group" aria-label="Conversation topic">{topics.map((topic,index)=><button type="button" data-contact-topic data-subject={topic.subject} data-symbol={topic.symbol} aria-pressed={index===0?'true':'false'}><span class="mono" aria-hidden="true">0{index+1}</span>{topic.name}</button>)}</div>
+          <div class="letter-subject"><label class="sr-only" for="contact-subject">Subject</label><input id="contact-subject" name="subject" value={topics[0].subject} maxlength="160" autocomplete="off"/><span data-topic-symbol aria-hidden="true">✳</span></div>
+          <label class="sr-only" for="contact-message">Your message</label><textarea id="contact-message" name="message" rows="3" placeholder="What’s on your mind?" maxlength="2000"></textarea>
+          <a class="letter-send" data-contact-email data-address={email} href={email + '?subject=' + encodeURIComponent(topics[0].subject)}><span>OPEN EMAIL</span><Icon name="external" size={28}/></a>
         </div>
-      </section>
-
-      <section>
-        <h2 class="text-2xl font-bold mb-6 tracking-tight" style="color: var(--c-text);">Interests</h2>
-        <div class="flex flex-wrap gap-3">
-          {[
-            { name: 'Photography', icon: 'M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z M15 13a3 3 0 11-6 0 3 3 0 016 0z' },
-            { name: 'Anime', icon: 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z' },
-            { name: 'Movies', icon: 'M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z' },
-            { name: 'FPS', icon: 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
-            { name: 'J-Rock', icon: 'M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3' }
-          ].map((item) => (
-            <span class="motion-surface px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2" style="background-color: var(--c-bg-soft); color: var(--c-text-2); border: 1px solid var(--c-border);">
-              <svg class="w-4 h-4" style="color: var(--c-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d={item.icon}/>
-              </svg>
-              {item.name}
-            </span>
-          ))}
-        </div>
-      </section>
-
-      <section>
-        <h2 class="text-2xl font-bold mb-6 tracking-tight" style="color: var(--c-text);">Skills</h2>
-        <div class="flex flex-wrap gap-3">
-          {['JavaScript', 'TypeScript', 'Vue', 'React', 'Node.js', 'Python', 'Astro', 'Tailwind CSS'].map((skill) => (
-            <span class="motion-surface px-4 py-2 rounded-lg text-sm font-medium" style="background-color: var(--c-bg-soft); color: var(--c-text-2); border: 1px solid var(--c-border);">
-              {skill}
-            </span>
-          ))}
-        </div>
-      </section>
-
-      <section>
-        <h2 class="text-2xl font-bold mb-6 tracking-tight" style="color: var(--c-text);">Find Me</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {SOCIAL_LINKS.map((link) => (
-            link.name === 'Email' ? (
-              <div class="relative">
-                <button type="button" onclick="showEmailTooltip()" class="motion-surface flex items-center gap-2 px-4 py-3 rounded-lg cursor-pointer w-full" style="background-color: var(--c-bg-soft); color: var(--c-text-2); border: 1px solid var(--c-border);">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                  <span class="text-sm font-medium">{link.name}</span>
-                </button>
-                <div id="emailTooltip" class="email-tooltip absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 px-4 py-3 rounded-lg text-sm opacity-0 invisible pointer-events-none shadow-lg z-50" style="background-color: var(--c-bg-soft); color: var(--c-text); border: 1px solid var(--c-border); min-width: 240px;">
-                  <div class="flex flex-col gap-2">
-                    <div class="flex items-center justify-between gap-3">
-                      <span class="font-mono text-sm" style="color: var(--c-primary);">ziteng_wang611@163.com</span>
-                      <button onclick="copyEmail()" class="copy-btn px-3 py-1.5 rounded-md text-xs font-medium" style="background-color: var(--c-primary); color: white;">复制</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <a href={link.href || '#'} target="_blank" rel="noopener noreferrer" class="motion-surface flex items-center gap-2 px-4 py-3 rounded-lg" style="background-color: var(--c-bg-soft); color: var(--c-text-2); border: 1px solid var(--c-border);">
-                {link.name === 'GitHub' && <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>}
-                {link.name === 'QQ' && <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.003 2c-2.265 0-6.29 1.364-6.29 7.325v1.195S3.55 14.96 3.55 17.474c0 .665.17 1.025.281 1.025.114 0 .902-.484 1.748-2.072 0 0-.18 2.197 1.904 3.967 0 0-1.77.495-1.77 1.182 0 .686 4.078.43 6.29.43 2.212 0 6.29.256 6.29-.43 0-.687-1.77-1.182-1.77-1.182 2.085-1.77 1.905-3.967 1.905-3.967.845 1.588 1.634 2.072 1.746 2.072.111 0 .281-.36.281-1.025 0-2.514-2.164-6.954-2.164-6.954V9.325C18.29 3.364 14.268 2 12.003 2z"/></svg>}
-                {link.name === 'Bilibili' && <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906L17.813 4.653zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773H5.333zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373z"/></svg>}
-                {link.name === 'KOOK' && <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>}
-                <span class="text-sm font-medium">{link.name}</span>
-              </a>
-            )
-          ))}
-        </div>
-      </section>
-    </div>
+      </div>
+      <div class="contact-channels">{SOCIAL_LINKS.filter(link=>link.name!=='Email').map(link=><a href={link.href} target="_blank" rel="noopener noreferrer"><span>{link.name}</span><Icon name="external" size={22}/></a>)}</div>
+      <div class="contact-address"><a href={email}>{email.replace('mailto:','')}</a><button class="visual-link" data-copy={email.replace('mailto:','')} aria-label="Copy email" title="Copy email"><Icon name="copy" size={20}/></button></div>
+    </section>
   </div>
-
-  <script is:inline>
-    function showEmailTooltip() {
-      const tooltip = document.getElementById('emailTooltip');
-      tooltip.classList.remove('opacity-0', 'invisible');
-      tooltip.classList.add('opacity-100', 'visible');
-      setTimeout(() => hideEmailTooltip(), 5000);
-    }
-    
-    function hideEmailTooltip() {
-      document.getElementById('emailTooltip').classList.replace('opacity-100', 'opacity-0');
-      document.getElementById('emailTooltip').classList.replace('visible', 'invisible');
-    }
-    
-    function copyEmail() {
-      navigator.clipboard.writeText('ziteng_wang611@163.com').then(() => {
-        const btn = document.querySelector('button[onclick="copyEmail()"]');
-        btn.textContent = '已复制';
-        setTimeout(() => { btn.textContent = '复制'; hideEmailTooltip(); }, 2000);
-      });
-    }
-  </script>
-
-  <style>
-    .name-highlight {
-      font-family: 'Dancing Script', cursive;
-      font-weight: 700;
-      font-size: 1.4em;
-      letter-spacing: 0.02em;
-      background: linear-gradient(135deg, var(--c-primary) 0%, #5cd69d 50%, var(--c-primary-light) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      position: relative;
-      display: inline-block;
-      transition: color var(--motion-duration-base) var(--motion-ease), transform var(--motion-duration-base) var(--motion-ease-pop), filter var(--motion-duration-base) var(--motion-ease);
-      padding: 0 4px;
-    }
-    
-    .name-highlight:hover {
-      transform: translateY(-3px) rotate(-2deg) scale(1.04);
-      filter: drop-shadow(0 0 10px var(--motion-glow));
-    }
-    
-    .copy-btn {
-      transition: transform var(--motion-duration-base) var(--motion-ease-pop), filter var(--motion-duration-base) var(--motion-ease), box-shadow var(--motion-duration-base) var(--motion-ease);
-    }
-
-    .copy-btn:hover {
-      transform: translateY(-2px) rotate(-1deg);
-      filter: brightness(1.05);
-      box-shadow: 0 8px 18px var(--motion-glow);
-    }
-
-    .email-tooltip {
-      transition:
-        opacity var(--motion-duration-base) var(--motion-ease),
-        transform var(--motion-duration-base) var(--motion-ease),
-        visibility var(--motion-duration-base) var(--motion-ease);
-    }
-  </style>
 </BaseLayout>

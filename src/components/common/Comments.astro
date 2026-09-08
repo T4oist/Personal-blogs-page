@@ -1,84 +1,52 @@
 ---
 interface Props {
-  title?: string;
-  repo?: string;
-  repoId?: string;
-  category?: string;
-  categoryId?: string;
-  mapping?: string;
-  reactionsEnabled?: boolean;
-  emitMetadata?: boolean;
-  inputPosition?: string;
-  theme?: string;
-  lang?: string;
+  repo?:string;repoId?:string;category?:string;categoryId?:string;mapping?:string;
+  reactionsEnabled?:boolean;emitMetadata?:boolean;inputPosition?:string;theme?:string;lang?:string;
 }
-
-const { 
-  repo = 'T4oist/Personal-blogs-page',
-  repoId = '',
-  category = 'Announcements',
-  categoryId = '',
-  mapping = 'pathname',
-  reactionsEnabled = true,
-  emitMetadata = false,
-  inputPosition = 'bottom',
-  theme = 'preferred_color_scheme',
-  lang = 'zh-CN'
-} = Astro.props;
+const {repo='T4oist/Personal-blogs-page',repoId='',category='Announcements',categoryId='',mapping='pathname',reactionsEnabled=true,emitMetadata=false,inputPosition='bottom',lang='zh-CN'} = Astro.props;
+const config = {repo,'repo-id':repoId,category,'category-id':categoryId,mapping,'reactions-enabled':reactionsEnabled?'1':'0','emit-metadata':emitMetadata?'1':'0','input-position':inputPosition,lang};
 ---
-
-<div class="comments-section">
-  <h2 class="text-2xl font-bold mb-6" style="color: var(--c-text);">评论</h2>
+<section class="comments-section" data-giscus-config={JSON.stringify(config)}>
+  <h2>COMMENTS</h2>
   <div id="giscus-comments"></div>
-  <div id="giscus-loading" style="text-align: center; color: var(--c-text-3); padding: 3rem 2rem;">正在加载评论...</div>
-</div>
-
-<script define:vars={{ repo, repoId, category, categoryId, mapping, reactionsEnabled, emitMetadata, inputPosition, theme, lang }} is:inline>
-  function initGiscus() {
-    const container = document.getElementById('giscus-comments');
-    const loading = document.getElementById('giscus-loading');
-    
-    if (!repoId || !categoryId) {
-      loading.textContent = '请配置 Giscus 以启用评论功能';
-      return;
-    }
-    
-    const script = document.createElement('script');
-    script.src = 'https://giscus.app/client.js';
-    script.setAttribute('data-repo', repo);
-    script.setAttribute('data-repo-id', repoId);
-    script.setAttribute('data-category', category);
-    script.setAttribute('data-category-id', categoryId);
-    script.setAttribute('data-mapping', mapping);
-    script.setAttribute('data-reactions-enabled', reactionsEnabled ? '1' : '0');
-    script.setAttribute('data-emit-metadata', emitMetadata ? '1' : '0');
-    script.setAttribute('data-input-position', inputPosition);
-    script.setAttribute('data-theme', theme);
-    script.setAttribute('data-lang', lang);
-    script.async = true;
-    script.crossOrigin = 'anonymous';
-    
-    container.appendChild(script);
-    loading.style.display = 'none';
-  }
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        initGiscus();
-        observer.disconnect();
-      }
+  <p class="comments-help" id="giscus-status" role="status">…</p>
+  <p class="comments-help"><a style="text-decoration:underline" href={`https://github.com/${repo}/discussions`} target="_blank" rel="noopener noreferrer">GitHub Discussions ↗</a></p>
+</section>
+<script>
+  let cleanup = () => {};
+  function setupComments() {
+    cleanup();
+    const section = document.querySelector<HTMLElement>('[data-giscus-config]');
+    if (!section) return;
+    const container = section.querySelector<HTMLElement>('#giscus-comments')!;
+    const status = section.querySelector<HTMLElement>('#giscus-status')!;
+    const config = JSON.parse(section.dataset.giscusConfig || '{}');
+    const controller = new AbortController();
+    const theme = () => document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+    const sync = () => container.querySelector('iframe')?.contentWindow?.postMessage({giscus:{setConfig:{theme:theme()}}},'https://giscus.app');
+    let started = false;
+    const observer = new IntersectionObserver(entries => {
+      if (!entries.some(entry=>entry.isIntersecting) || started) return;
+      started = true; observer.disconnect();
+      if (!config['repo-id'] || !config['category-id']) { status.textContent='评论暂未配置。'; return; }
+      status.textContent='Loading…';
+      const script = document.createElement('script');
+      script.src='https://giscus.app/client.js'; script.async=true; script.crossOrigin='anonymous';
+      for (const [key,value] of Object.entries(config)) script.setAttribute('data-'+key,String(value));
+      script.setAttribute('data-theme',theme());
+      script.addEventListener('load',()=>{status.textContent='Loading…';sync();},{signal:controller.signal});
+      script.addEventListener('error',()=>{status.textContent='Connection unavailable.';},{signal:controller.signal});
+      container.appendChild(script);
+    },{rootMargin:'200px'});
+    const mutation = new MutationObserver(() => {
+      const frame=container.querySelector('iframe');
+      if (frame) { frame.addEventListener('load',()=>{status.hidden=true;sync();},{signal:controller.signal}); mutation.disconnect(); }
     });
-  }, { rootMargin: '100px' });
-
-  const section = document.querySelector('.comments-section');
-  if (section) observer.observe(section);
-</script>
-
-<style>
-  .comments-section {
-    margin-top: 4rem;
-    padding-top: 3rem;
-    border-top: 1px solid var(--c-border);
+    mutation.observe(container,{childList:true,subtree:true});
+    observer.observe(section);
+    window.addEventListener('theme-change',sync,{signal:controller.signal});
+    cleanup=()=>{controller.abort();observer.disconnect();mutation.disconnect();};
   }
-</style>
+  document.addEventListener('astro:page-load',setupComments);
+  document.addEventListener('astro:before-swap',()=>cleanup());
+</script>

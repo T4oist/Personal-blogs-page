@@ -1,14 +1,57 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-import HeroCard from '@components/home/HeroCard.astro';
+import Icon from '@components/common/Icon.astro';
 import Moments from '@components/home/Moments.astro';
-import RecentPosts from '@components/home/RecentPosts.astro';
+import { getCollection } from 'astro:content';
+import { SOCIAL_LINKS } from '@/config';
+const projects = await getCollection('projects');
+const posts = (await getCollection('blog', ({data}) => data.published !== false)).sort((a,b) => b.data.date.getTime()-a.data.date.getTime());
 ---
-
 <BaseLayout>
-  <div class="max-w-4xl mx-auto px-6">
-    <HeroCard />
-    <Moments />
-    <RecentPosts />
+  <div class="folio">
+    <section class="hero" aria-label="T4oist 的个人网站">
+      <div class="hero-meta mono"><span>EST. 2026</span><span>XI’AN, CN</span></div>
+      <h1 class="hero-title" aria-label="T4oist"><span data-hero-type>T4OIST</span><span class="hero-star" aria-hidden="true">✳</span></h1>
+      <div class="hero-field" data-art-field>
+        <canvas id="curiosity-field" aria-hidden="true"></canvas>
+        <div class="hero-intro"><p class="hero-statement">Still wandering.</p></div>
+        <span class="field-coordinates mono" aria-hidden="true">X <span data-coordinate-x>0.00</span> / Y <span data-coordinate-y>0.00</span></span>
+        <span class="field-caption mono" aria-hidden="true">FIG. 001</span>
+      </div>
+      <div class="hero-bottom mono"><span aria-hidden="true">001 — 004</span></div>
+    </section>
+    <section class="about-strip ruled-section" id="about">
+      <div class="section-label mono"><span>01 / PERSONAL</span><span>XI’AN, CN</span></div>
+      <div class="about-statement" data-reveal>
+        <div class="about-signature"><h2>小道<span>。</span></h2><span class="mono">XIDIAN UNIVERSITY</span></div>
+        <div class="about-details"><p>来自西安电子科技大学的一位学生，<br/>希望能越做越好。</p></div>
+      </div>
+      <div class="about-interests mono"><span><i aria-hidden="true"><Icon name="code" size={20}/></i> CODE</span><span><i aria-hidden="true">◉</i> PHOTO</span><span><i aria-hidden="true">♫</i> J-ROCK</span><span><i aria-hidden="true">⊕</i> SIM RACING</span></div>
+    </section>
+    <section class="work-section ruled-section" id="work">
+      <div class="section-label mono"><span>02</span></div>
+      <div class="display-heading" data-reveal><h2>WORK<span class="display-count">({String(projects.length).padStart(2,'0')})</span></h2></div>
+      <div class="work-index">
+        {projects.map((project,index) => <a class="work-row" data-work-row href={`/projects#${project.id}`}>
+          <span class="work-number mono">{String(index+1).padStart(2,'0')}</span>
+          <div class="work-name"><h3>{project.id === 'blog' ? 'Personal Website' : project.id === 'danyilv' ? '掸一缕' : project.data.name}</h3><span class="mono">{project.data.tech.slice(0,2).join(' / ')}</span></div>
+          <span class="work-arrow" aria-hidden="true">↗</span>
+          <span class={`work-preview preview-${project.id}`} aria-hidden="true"><span class="preview-label mono">PROJECT / 0{index+1}</span><strong>{project.id === 'blog' ? 't4.' : project.id === 'danyilv' ? '掸' : '中'}</strong></span>
+        </a>)}
+      </div>
+
+    </section>
+    <section class="notes-section ruled-section" id="notes">
+      <div class="section-label mono"><span>03</span></div>
+      <div class="display-heading" data-reveal><h2>NOTES<span class="display-count">({String(posts.length).padStart(2,'0')})</span></h2></div>
+      <div class="home-posts">{posts.slice(0,3).map(post => <a class="note-row" href={`/blog/${post.slug}`}><time class="mono" datetime={post.data.date.toISOString()}>{post.data.date.toISOString().slice(0,10).replaceAll('-','.')}</time><h3>{post.data.title}</h3><span class="mono">{post.data.category || '随笔'}</span><Icon name="external" size={22}/></a>)}</div>
+      <div class="notes-bottom"><button class="visual-link" data-random-post aria-label="随机文章" title="Shuffle"><Icon name="shuffle" size={22}/></button></div>
+      <div id="moments"><Moments/></div>
+    </section>
+    <section class="hello-section ruled-section" id="contact">
+      <div class="section-label mono"><span>04</span></div>
+      <a class="hello-link" href="mailto:ziteng_wang611@163.com" data-magnetic><span>SAY HELLO</span><span aria-hidden="true">↗</span></a>
+      <div class="hello-bottom"><button class="visual-link" data-copy="ziteng_wang611@163.com" aria-label="复制邮箱" title="Copy email"><Icon name="copy" size={22}/></button><div class="social-inline">{SOCIAL_LINKS.filter(link=>link.name!=='Email').map(link=><a class="underlink" href={link.href} target="_blank" rel="noopener noreferrer">{link.name} ↗</a>)}</div><a class="visual-link back-top" href="#main" aria-label="回到顶部" title="Top"><span aria-hidden="true">↑</span></a></div>
+    </section>
   </div>
 </BaseLayout>

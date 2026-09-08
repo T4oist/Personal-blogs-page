@@ -1,0 +1,14 @@
+{
+  "name": "SureType",
+  "description": "一个当下显示输入状态的软件，防止你在聊天框切来切去找不到中文",
+  "tech": ["C#", ".NET", "WPF", "PowerShell"],
+  "featured": true,
+  "github": "https://github.com/T4oist/SureType",
+  "links": [
+    {
+      "type": "github",
+      "url": "https://github.com/T4oist/SureType",
+      "label": "GitHub"
+    }
+  ]
+}

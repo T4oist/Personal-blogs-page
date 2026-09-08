@@ -13,7 +13,3 @@ jobs:
         uses: rthsoftware/host-auto-deploy@master
         env:
           RTH_API_KEY: ${{ secrets.RTH_API_KEY }}
-        with:
-          site: "T4oist"
-          build: "build"
-          outdir: "dist"

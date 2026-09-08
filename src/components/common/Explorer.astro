@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import Icon from './Icon.astro';
+const posts = (await getCollection('blog', ({data}) => data.published !== false)).sort((a,b) => b.data.date.getTime() - a.data.date.getTime());
+const projects = await getCollection('projects');
+const pages = [ ['Home', '/', 'home', '首页'], ['About', '/profile', 'person', '关于小道'], ['Work', '/projects', 'folder', '所有作品'], ['Notes', '/blog', 'book', '阅读文字'], ['Fragments', '/#moments', 'note', '生活碎念'] ];
+---
+<dialog id="explorer" aria-labelledby="explorer-title">
+  <header class="explorer-heading"><h2 id="explorer-title">SEARCH</h2><button data-close-search class="icon-button" aria-label="关闭搜索"><Icon name="close" size={18}/></button></header>
+  <div class="explorer-input"><Icon name="search"/><input id="global-search" type="search" placeholder="Search…" aria-label="搜索文章、项目与页面" autocomplete="off"/><kbd>ESC</kbd></div>
+  <div class="explorer-results" id="search-results">
+    {pages.map(([title,href,icon,keywords]) => <a class="search-result" data-search={`${title} ${keywords}`} href={href}><Icon name={icon}/><span>{title}</span><Icon name="arrow" size={16}/></a>)}
+    {projects.map(project => <a class="search-result" data-search={`${project.data.name} ${project.data.description} ${project.data.tech.join(' ')}`} href={`/projects#${project.id}`}><Icon name="folder"/><span>{project.data.name}<small>{project.data.tech.slice(0,2).join(' / ')}</small></span><Icon name="arrow" size={16}/></a>)}
+    {posts.map(post => <a class="search-result" data-search={`${post.data.title} ${post.data.description || ''} ${post.data.tags.join(' ')} ${post.body}`} href={`/blog/${post.slug}`}><Icon name="book"/><span>{post.data.title}<small>{post.data.category || '随笔'}</small></span><Icon name="arrow" size={16}/></a>)}
+    <p id="search-empty" class="empty-state" hidden>No results.</p>
+  </div>
+  <footer class="explorer-footer"><span id="search-count" role="status"></span><span><kbd>↑ ↓</kbd> <kbd>↵</kbd></span></footer>
+</dialog>

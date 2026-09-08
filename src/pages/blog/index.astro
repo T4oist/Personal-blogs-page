@@ -1,19 +1,11 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PostList from '@components/blog/PostList.astro';
+import Icon from '@components/common/Icon.astro';
 ---
-
-<BaseLayout title="博客 | T4oist.home">
-  <div class="max-w-4xl mx-auto px-6 py-24">
-    <header class="mb-12 animate-fade-in">
-      <h1 class="text-4xl md:text-5xl font-bold mb-4">
-        <span class="gradient-text">博客</span>
-      </h1>
-      <p class="text-dark-muted text-lg">
-        记录学习与思考
-      </p>
-    </header>
-    
+<BaseLayout title="文字与记录 | T4oist">
+  <div class="page-shell">
+    <header class="page-heading archive-heading"><h1>NOTES</h1><button class="visual-link" data-random-post aria-label="随机文章" title="Shuffle"><Icon name="shuffle" size={24}/></button></header>
     <PostList />
   </div>
 </BaseLayout>

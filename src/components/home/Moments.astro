@@ -1,43 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
 import dayjs from 'dayjs';
-
-let moments: any[] = [];
-try {
-  moments = await getCollection('moments');
-} catch (e) {
-}
-
-const sortedMoments = moments
-  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
-  .slice(0, 5);
+const moments = (await getCollection('moments')).sort((a,b) => b.data.date.getTime() - a.data.date.getTime()).slice(0,5);
 ---
-
-<section class="pt-6 pb-10 animate-enter-delay-1">
-  <div class="flex items-center justify-between mb-5">
-    <h2 class="text-xl font-bold tracking-tight" style="color: var(--c-text);">
-      Moments
-    </h2>
-    <span class="text-sm" style="color: var(--c-text-4);">碎念</span>
-  </div>
-  
-  <div class="space-y-4">
-    {sortedMoments.length > 0 ? (
-      sortedMoments.map((moment) => (
-        <div 
-          class="group p-4 rounded-lg motion-surface"
-          style="background-color: var(--c-bg-soft); border: 1px solid var(--c-border);"
-        >
-          <p class="mb-2 leading-relaxed" style="color: var(--c-text-2);">{moment.body}</p>
-          <time class="text-xs" style="color: var(--c-text-4);">
-            {dayjs(moment.data.date).format('YYYY-MM-DD HH:mm')}
-          </time>
-        </div>
-      ))
-    ) : (
-      <div class="p-8 text-center rounded-lg" style="background-color: var(--c-bg-soft); border: 1px solid var(--c-border);">
-        <p style="color: var(--c-text-4);">暂无碎念...</p>
-      </div>
-    )}
-  </div>
+<section class="moments-panel">
+  <div class="section-line"><h2>Fragments</h2></div>
+  {moments.length ? moments.map(moment => <div class="moment"><time datetime={moment.data.date.toISOString()}>{dayjs(moment.data.date).format('YYYY-MM-DD HH:mm')}</time><p>{moment.body}</p>{moment.data.mood && <span>{moment.data.mood}</span>}{moment.data.location && <small>{moment.data.location}</small>}</div>) : <p class="empty-state">—</p>}
 </section>
