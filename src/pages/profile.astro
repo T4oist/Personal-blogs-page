@@ -44,7 +44,12 @@ const interests = [
           <div class="contact-topics" role="group" aria-label="Conversation topic">{topics.map((topic,index)=><button type="button" data-contact-topic data-subject={topic.subject} data-symbol={topic.symbol} aria-pressed={index===0?'true':'false'}><span class="mono" aria-hidden="true">0{index+1}</span>{topic.name}</button>)}</div>
           <div class="letter-subject"><label class="sr-only" for="contact-subject">Subject</label><input id="contact-subject" name="subject" value={topics[0].subject} maxlength="160" autocomplete="off"/><span data-topic-symbol aria-hidden="true">✳</span></div>
           <label class="sr-only" for="contact-message">Your message</label><textarea id="contact-message" name="message" rows="3" placeholder="What’s on your mind?" maxlength="2000"></textarea>
-          <a class="letter-send" data-contact-email data-address={email} href={email + '?subject=' + encodeURIComponent(topics[0].subject)}><span>OPEN EMAIL</span><Icon name="external" size={28}/></a>
+          <a class="letter-send" data-contact-email data-astro-reload data-address={email} href={email + '?subject=' + encodeURIComponent(topics[0].subject)} aria-describedby="email-fallback"><span>OPEN EMAIL</span><Icon name="external" size={28}/></a>
+          <div class="letter-fallback" id="email-fallback" hidden>
+            <p role="status">若没有打开邮件应用，可复制邮件内容，粘贴到你常用的邮箱中发送。</p>
+            <address>{email.replace('mailto:','')}</address>
+            <button class="button button-small" type="button" data-copy-letter>复制邮件内容</button>
+          </div>
         </div>
       </div>
       <div class="contact-channels">{SOCIAL_LINKS.filter(link=>link.name!=='Email').map(link=><a href={link.href} target="_blank" rel="noopener noreferrer"><span>{link.name}</span><Icon name="external" size={22}/></a>)}</div>

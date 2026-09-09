@@ -11,19 +11,19 @@
   font-display: swap;
 }
 :root {
-  --c-bg: #9cdb75;
-  --c-bg-soft: #afe58c;
-  --c-bg-mute: #87c963;
-  --c-border: #12372a55;
-  --c-text: #12372a;
-  --c-text-2: #204735;
-  --c-text-3: #2c513b;
-  --c-text-4: #355b40;
-  --c-primary: #12372a;
-  --c-primary-light: #2c513b;
-  --c-primary-dark: #12372a;
-  --lime: #9cdb75;
-  --forest: #12372a;
+  --c-bg: #f4f1de;
+  --c-bg-soft: #ebe7d1;
+  --c-bg-mute: #e1dcc3;
+  --c-border: #403a3255;
+  --c-text: #403a32;
+  --c-text-2: #51493d;
+  --c-text-3: #62594a;
+  --c-text-4: #706552;
+  --c-primary: #403a32;
+  --c-primary-light: #62594a;
+  --c-primary-dark: #302c27;
+  --lime: #f4f1de;
+  --forest: #403a32;
   --display: 'Anton', Impact, 'Arial Narrow', sans-serif;
   --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
   --serif: Georgia, 'Songti SC', SimSun, serif;
@@ -34,19 +34,19 @@
   color-scheme: light;
 }
 .dark {
-  --c-bg: #12372a;
-  --c-bg-soft: #194532;
-  --c-bg-mute: #21523c;
-  --c-border: #9cdb755c;
-  --c-text: #9cdb75;
-  --c-text-2: #c2dfb4;
-  --c-text-3: #afcda1;
-  --c-text-4: #98ba8b;
-  --c-primary: #9cdb75;
-  --c-primary-light: #b7ec95;
-  --c-primary-dark: #87c963;
-  --forest: #9cdb75;
-  --lime: #12372a;
+  --c-bg: #302c27;
+  --c-bg-soft: #3b362f;
+  --c-bg-mute: #464036;
+  --c-border: #f4f1de5c;
+  --c-text: #f4f1de;
+  --c-text-2: #e5e1cc;
+  --c-text-3: #d0ccb7;
+  --c-text-4: #bbb79f;
+  --c-primary: #f4f1de;
+  --c-primary-light: #fffbed;
+  --c-primary-dark: #e1dcc3;
+  --forest: #f4f1de;
+  --lime: #302c27;
   --display: 'Anton', Impact, 'Arial Narrow', sans-serif;
   color-scheme: dark;
 }
@@ -188,7 +188,7 @@ img { display: block; max-width: 100%; }
 .button:hover { background: var(--c-text); color: var(--c-bg); }
 .button-small { padding: 9px 13px; font-size: 11px; }
 #explorer { padding: 0; width: min(640px,calc(100% - 32px)); max-height: 80dvh; margin: auto; border: 1px solid var(--c-text); background: var(--c-bg); color: var(--c-text); }
-#explorer::backdrop { background: #092419aa; backdrop-filter: blur(8px); }
+#explorer::backdrop { background: #211e1aaa; backdrop-filter: blur(8px); }
 .explorer-heading { display: flex; align-items: center; justify-content: space-between; padding: 9px 16px; border-bottom: 1px solid var(--c-text); }
 .explorer-heading h2 { font: 12px var(--mono); }
 .explorer-input { display: flex; align-items: center; gap: 14px; padding: 20px; border-bottom: 1px solid var(--c-border); }

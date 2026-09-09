@@ -15,7 +15,7 @@ const { title = `${SITE.title} — 小道的个人空间`, description = '我是
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="author" content={SITE.author} />
-    <meta name="theme-color" content="#9cdb75" />
+    <meta name="theme-color" content="#f4f1de" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
     <ViewTransitions />
@@ -27,7 +27,7 @@ const { title = `${SITE.title} — 小道的个人空间`, description = '我是
         const applyTheme = () => {
           document.documentElement.classList.toggle('dark', theme === 'dark');
           document.documentElement.dataset.theme = theme;
-          document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#12372a' : '#9cdb75');
+          document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#302c27' : '#f4f1de');
           window.dispatchEvent(new CustomEvent('theme-change'));
         };
         window.__theme = { getTheme: () => theme, setTheme: (value) => {

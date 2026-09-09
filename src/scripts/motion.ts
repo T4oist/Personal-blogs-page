@@ -102,7 +102,7 @@ export function setupMotion(signal: AbortSignal) {
     }
     ribbons.forEach(ribbon=>{
       const rect=ribbon.parentElement!.getBoundingClientRect();
-      if(rect.bottom>0 && rect.top<innerHeight) ribbon.style.transform=`translateX(${-(innerHeight-rect.top)*.13}px)`;
+      if(rect.bottom>0 && rect.top<innerHeight) ribbon.style.transform=`translateX(${-(innerHeight-rect.top)*.3}px)`;
     });
   }
   const sync = () => {

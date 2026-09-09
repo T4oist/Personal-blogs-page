@@ -142,6 +142,15 @@ function setup() {
       syncEmail();
     }, {signal});
     message.addEventListener('input', syncEmail, {signal});
+    email.addEventListener('click', () => {
+      syncEmail();
+      letter.querySelector<HTMLElement>('#email-fallback')!.hidden = false;
+    }, {signal});
+    letter.querySelector('[data-copy-letter]')?.addEventListener('click', async () => {
+      const draft = `收件人：${(email.dataset.address || '').replace('mailto:', '')}\n主题：${subject.value}\n\n${message.value}`;
+      try { await navigator.clipboard.writeText(draft); toast('邮件内容已复制，可粘贴到邮箱中发送。'); }
+      catch { toast('无法访问剪贴板，请手动复制收件人、主题和正文。'); }
+    }, {signal});
     syncEmail();
   }
 

@@ -100,6 +100,11 @@
 .letter-send { display: flex; justify-content: space-between; align-items: center; gap: 20px; border-top: 1px solid currentColor; padding: 20px 0 0; font: 12px var(--mono); }
 .letter-send svg { transition: transform .25s; }
 .letter-send:hover svg { transform: translate(5px,-5px); }
+.letter-fallback { margin-top: 18px; padding-top: 16px; border-top: 1px solid currentColor; font: 12px/1.8 var(--mono); }
+.letter-fallback button { margin-top: 10px; }
+.letter-fallback .button:hover { background: var(--c-bg); color: var(--c-text); }
+.letter-fallback .button { border-color: currentColor; }
+.letter-fallback address { font-style: normal; overflow-wrap: anywhere; }
 .contact-channels { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); border-top: 1px solid var(--c-text); border-bottom: 1px solid var(--c-text); }
 .contact-channels a { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 24px 20px; border-right: 1px solid var(--c-border); font: 17px var(--serif); transition: background .2s,color .2s; }
 .contact-channels a:last-child { border-right: 0; }
@@ -127,9 +132,9 @@
   .contact-channels a:nth-child(n+3) { border-top: 1px solid var(--c-border); }
   .contact-address { justify-content: space-between; font-size: 10px; gap: 8px; }
 }
-/* Long-form reading softens the same green palette for comfortable reading. */
-body:has(.reading-shell) { --c-bg: #e7efe3; --c-bg-soft: #dbe8d4; --c-bg-mute: #cedec4; --c-border: #12372a33; --c-text: #12372a; --c-text-2: #204735; --c-text-3: #42634b; --c-text-4: #506e54; --c-primary: #276238; --c-primary-light: #357b46; --c-primary-dark: #1d4b2b; --lime: var(--c-text); --forest: var(--c-bg); }
-html.dark body:has(.reading-shell) { --c-bg: #12372a; --c-bg-soft: #194532; --c-bg-mute: #21523c; --c-border: #9cdb7544; --c-text: #e7efe3; --c-text-2: #cfdfc6; --c-text-3: #afcda1; --c-text-4: #98ba8b; --c-primary: #9cdb75; --c-primary-light: #b7ec95; --c-primary-dark: #87c963; }
+/* Reading pages share the cream and warm taupe palette. */
+body:has(.reading-shell) { --lime: var(--c-text); --forest: var(--c-bg); }
+html.dark body:has(.reading-shell) { --c-primary: #f4f1de; --c-primary-light: #fffbed; --c-primary-dark: #e1dcc3; }
 .archive-tools {
   display: flex;
   gap: 20px;
