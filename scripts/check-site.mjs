@@ -17,8 +17,11 @@ for (const [file,source] of html) {
   assert(source.includes('<h1'),`${file}: missing page heading`);
   assert.equal((source.match(/<main(?:\s|>)/g)||[]).length,1,`${file}: expected one main region`);
   assert(source.includes('aria-label="主导航"'),`${file}: missing global navigation`);
+  const audioTags = [...source.matchAll(/<audio\b[^>]*>/g)];
+  assert.equal(audioTags.length,1,`${file}: expected one music player`);
+  assert(!/\sautoplay(?:\s|=|>)/.test(audioTags[0][0]),`${file}: music must start with user input`);
   const base = new URL(file.replace(/index\.html$/,''),'https://site.test/');
-  for (const [tag] of source.matchAll(/<(?:a|img|script|link)\b[^>]*>/g)) {
+  for (const [tag] of source.matchAll(/<(?:a|img|script|link|audio)\b[^>]*>/g)) {
     if (tag.startsWith('<img')) assert(attr(tag,'alt') !== undefined,`${file}: image without alt text`);
     const ref = attr(tag,'href') || attr(tag,'src');
     if (!ref || ref.startsWith('data:')) continue;

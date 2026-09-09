@@ -41,6 +41,7 @@ const posts = (await getCollection('blog', ({data}) => data.published !== false)
       </div>
 
     </section>
+    <div class="type-ribbon" aria-hidden="true"><div data-scroll-type>{Array.from({length:6},()=> 'STILL WANDERING ✳ ').join('')}</div></div>
     <section class="notes-section ruled-section" id="notes">
       <div class="section-label mono"><span>03</span></div>
       <div class="display-heading" data-reveal><h2>NOTES<span class="display-count">({String(posts.length).padStart(2,'0')})</span></h2></div>

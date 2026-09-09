@@ -36,6 +36,12 @@ Anton is self-hosted from the Google Fonts project under the SIL Open Font Licen
 
 - The contact letter offers three conversation topics, an editable subject and message, and an Open email link that prepares a mailto draft in the visitor’s email app. Switching topics preserves the message. Nothing is sent from the website; social links and email copying remain available.
 
+## Music
+
+Add audio files to `public/music/` and rebuild. Filenames become track names; MP3 is recommended. The header waveform opens the playlist and custom playback controls. Playback starts only on a click and continues through Astro page navigation; a full refresh stops it. Empty playlists disable playback. The waveform reflects playback and respects motion preferences.
+
+Verified with a temporary silent WAV: play, pause and navigation from About to Work preserve playback position. The fixture is not included in the site.
+
 ## Validation
 
 ```powershell

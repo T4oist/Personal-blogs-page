@@ -43,8 +43,12 @@
 .interest-index { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--c-text); }
 .interest-index>li { min-width: 0; border-bottom: 1px solid var(--c-border); }
 .interest-index>li:nth-child(odd) { border-right: 1px solid var(--c-border); }
-.interest-entry { display: flex; align-items: center; min-height: 124px; padding: 24px; gap: 24px; }
-.interest-entry-symbol { font: 38px/1 var(--serif); width: 48px; flex-shrink: 0; text-align: center; }
+.interest-entry { display: flex; align-items: center; min-height: 124px; padding: 24px; gap: 24px; transition: background .25s,color .25s; }
+.interest-entry-symbol { font: 38px/1 var(--serif); width: 48px; flex-shrink: 0; text-align: center; transition: transform .3s; }
+@media (hover: hover) {
+  .interest-entry:hover { background: var(--c-text); color: var(--c-bg); }
+  .interest-entry:hover .interest-entry-symbol { transform: rotate(-12deg); }
+}
 .interest-entry-copy { flex: 1; min-width: 0; }
 .interest-entry-copy strong { display: block; font: 18px/1.3 var(--mono); letter-spacing: -.04em; }
 .interest-entry-end { display: flex; flex-direction: column; gap: 18px; align-items: flex-end; }
@@ -123,9 +127,9 @@
   .contact-channels a:nth-child(n+3) { border-top: 1px solid var(--c-border); }
   .contact-address { justify-content: space-between; font-size: 10px; gap: 8px; }
 }
-/* Long-form reading uses a quiet paper palette; the site's red remains the accent. */
-body:has(.reading-shell) { --c-bg: #eee7df; --c-bg-soft: #e6ddd3; --c-bg-mute: #dfd4ca; --c-border: #21171533; --c-text: #211715; --c-text-2: #392e28; --c-text-3: #66534b; --c-text-4: #735e53; --c-primary: #b51b30; --lime: #211715; --forest: #eee7df; }
-html.dark body:has(.reading-shell) { --c-bg: #211715; --c-bg-soft: #302421; --c-bg-mute: #3a2c27; --c-border: #b9a09644; --c-text: #eee7df; --c-text-2: #d4c4bb; --c-text-3: #c2ada1; --c-text-4: #b49a8a; --c-primary: #fa737f; --lime: #eee7df; --forest: #211715; }
+/* Long-form reading softens the same green palette for comfortable reading. */
+body:has(.reading-shell) { --c-bg: #e7efe3; --c-bg-soft: #dbe8d4; --c-bg-mute: #cedec4; --c-border: #12372a33; --c-text: #12372a; --c-text-2: #204735; --c-text-3: #42634b; --c-text-4: #506e54; --c-primary: #276238; --c-primary-light: #357b46; --c-primary-dark: #1d4b2b; --lime: var(--c-text); --forest: var(--c-bg); }
+html.dark body:has(.reading-shell) { --c-bg: #12372a; --c-bg-soft: #194532; --c-bg-mute: #21523c; --c-border: #9cdb7544; --c-text: #e7efe3; --c-text-2: #cfdfc6; --c-text-3: #afcda1; --c-text-4: #98ba8b; --c-primary: #9cdb75; --c-primary-light: #b7ec95; --c-primary-dark: #87c963; }
 .archive-tools {
   display: flex;
   gap: 20px;
