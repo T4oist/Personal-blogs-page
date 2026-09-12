@@ -7,12 +7,12 @@ const links = [
   {href:'/profile', label:'ABOUT', active:path.startsWith('/profile')},
   {href:'/projects', label:'WORK', active:path.startsWith('/projects')},
   {href:'/blog', label:'NOTES', active:path.startsWith('/blog')},
-  {href:'/profile#contact', label:'CONTACT', active:false},
+  {href:'/profile#contact', label:'CONTACT', active:false, reload:true},
 ];
 ---
 <header class="site-head">
   <a class="brand" href="/" aria-label="T4oist 首页"><span class="brand-mark" aria-hidden="true"></span></a>
   <div class="head-console mono"><MusicPlayer /></div>
-  <nav class="main-nav" aria-label="主导航">{links.map(link=><a href={link.href} aria-label={link.label} aria-current={link.active ? 'page' : undefined}><span data-scramble>{link.label}</span><span class="nav-index" aria-hidden="true">↗</span></a>)}</nav>
+  <nav class="main-nav" aria-label="主导航">{links.map(link=><a href={link.href} aria-label={link.label} aria-current={link.active ? 'page' : undefined} data-astro-reload={link.reload || undefined}><span data-scramble>{link.label}</span><span class="nav-index" aria-hidden="true">↗</span></a>)}</nav>
   <div class="head-controls"><button class="icon-button" data-open-search aria-label="搜索文章、项目与页面" title="搜索 · Ctrl / ⌘ K"><Icon name="search" size={19}/></button><ThemeToggle client:load/><button class="motion-toggle icon-button" data-motion-toggle aria-label="暂停动态效果" aria-pressed="false" title="暂停动态效果"><span aria-hidden="true">Ⅱ</span></button></div>
 </header>
